@@ -1,36 +1,121 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="en">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+    <title>SIKED MTY</title>
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
+    @vite([
+        'resources/css/app.css',
+        'resources/js/app.js'
+    ])
+
+</head>
+
+<body class="bg-gradient-to-br
+             from-slate-100
+             to-green-50">
+
+    <div class="flex">
+
+        {{-- SIDEBAR --}}
+        @if(auth()->user()->role->slug == 'guru')
+
+            @include('partials.sidebar.guru')
+
+        @elseif(auth()->user()->role->slug == 'tata_usaha')
+
+            @include('partials.sidebar.tata_usaha')
+
+        @elseif(auth()->user()->role->slug == 'kepala_sekolah')
+
+            @include('partials.sidebar.kepala_sekolah')
+
+        @endif
+
+        <div class="flex-1 flex flex-col min-h-screen">
+
+            {{-- CONTENT --}}
+            <main class="p-6 flex-1">
+
+                @yield('content')
+
             </main>
+
+            {{-- FOOTER --}}
+            @include('partials.footer')
+
         </div>
-    </body>
+
+    </div>
+
+    {{-- SWEET ALERT --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- SUCCESS --}}
+    @if(session('success'))
+
+    <script>
+
+        let pesan = @json(session('success'));
+
+        let icon = 'success';
+        let title = 'Berhasil';
+
+        // KHUSUS TERLAMBAT
+        if (pesan.includes('Terlambat')) {
+
+            icon = 'error';
+            title = 'Kehadiran Terlambat';
+
+        }
+
+        Swal.fire({
+
+            icon: icon,
+
+            title: title,
+
+            text: pesan,
+
+            confirmButtonText: 'OK',
+
+            confirmButtonColor: '#16a34a'
+
+        });
+
+    </script>
+
+    @endif
+
+    {{-- ERROR --}}
+    @if(session('error'))
+
+    <script>
+
+        Swal.fire({
+
+            icon: 'error',
+
+            title: 'Gagal',
+
+            text: @json(session('error')),
+
+            confirmButtonText: 'OK',
+
+            confirmButtonColor: '#dc2626'
+
+        });
+
+    </script>
+
+    @endif
+
+</body>
+
 </html>
