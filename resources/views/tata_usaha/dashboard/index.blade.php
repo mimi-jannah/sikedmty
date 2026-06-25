@@ -19,17 +19,6 @@
 
         </div>
 
-        <button class="bg-green-700
-                       text-white
-                       px-6 py-3
-                       rounded-2xl
-                       font-semibold
-                       shadow-lg">
-
-            Ekspor
-
-        </button>
-
     </div>
 
     {{-- CARD --}}
