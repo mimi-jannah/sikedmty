@@ -381,4 +381,186 @@
 
 </div>
 
+@foreach($pelatihans as $item)
+
+<div id="editPelatihan{{ $item->id }}"
+     class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+    <div class="bg-white rounded-3xl p-8 w-[700px] max-h-screen overflow-y-auto shadow-2xl">
+
+        <h2 class="text-3xl font-bold text-yellow-500 mb-6">
+
+            Edit Data Pelatihan
+
+        </h2>
+
+        <form
+            action="{{ route('guru.pelatihan.update',$item->id) }}"
+            method="POST"
+            enctype="multipart/form-data">
+
+            @csrf
+            @method('PUT')
+
+            {{-- TANGGAL --}}
+            <div class="mb-5">
+
+                <label class="block mb-2 font-semibold">
+
+                    Tanggal Pelatihan
+
+                </label>
+
+                <input
+                    type="date"
+                    name="tanggal_pelatihan"
+                    value="{{ $item->tanggal_pelatihan }}"
+                    class="w-full rounded-2xl border-gray-300">
+
+            </div>
+
+            {{-- NAMA --}}
+            <div class="mb-5">
+
+                <label class="block mb-2 font-semibold">
+
+                    Nama Pelatihan
+
+                </label>
+
+                <input
+                    type="text"
+                    name="nama_pelatihan"
+                    value="{{ $item->nama_pelatihan }}"
+                    class="w-full rounded-2xl border-gray-300">
+
+            </div>
+
+            {{-- DESKRIPSI --}}
+            <div class="mb-5">
+
+                <label class="block mb-2 font-semibold">
+
+                    Deskripsi
+
+                </label>
+
+                <textarea
+                    name="deskripsi"
+                    rows="3"
+                    class="w-full rounded-2xl border-gray-300">{{ $item->deskripsi }}</textarea>
+
+            </div>
+
+            {{-- PENYELENGGARA --}}
+            <div class="mb-5">
+
+                <label class="block mb-2 font-semibold">
+
+                    Penyelenggara
+
+                </label>
+
+                <input
+                    type="text"
+                    name="penyelenggara"
+                    value="{{ $item->penyelenggara }}"
+                    class="w-full rounded-2xl border-gray-300">
+
+            </div>
+
+            {{-- LOKASI --}}
+            <div class="mb-5">
+
+                <label class="block mb-2 font-semibold">
+
+                    Lokasi
+
+                </label>
+
+                <select
+                    name="lokasi"
+                    class="w-full rounded-2xl border-gray-300">
+
+                    <option
+                        value="Sekolah"
+                        {{ $item->lokasi=='Sekolah' ? 'selected':'' }}>
+
+                        Sekolah
+
+                    </option>
+
+                    <option
+                        value="Luar Sekolah"
+                        {{ $item->lokasi=='Luar Sekolah' ? 'selected':'' }}>
+
+                        Luar Sekolah
+
+                    </option>
+
+                </select>
+
+            </div>
+
+            {{-- SERTIFIKAT --}}
+            <div class="mb-6">
+
+                <label class="block mb-2 font-semibold">
+
+                    Upload Sertifikat Baru
+
+                </label>
+
+                <input
+                    type="file"
+                    name="sertifikat"
+                    accept=".pdf,.jpg,.jpeg,.png">
+
+                @if($item->sertifikat)
+
+                    <div class="mt-3">
+
+                        <a href="{{ asset('storage/'.$item->sertifikat) }}"
+                           target="_blank"
+                           class="text-green-600 font-semibold">
+
+                            Lihat Sertifikat Lama
+
+                        </a>
+
+                    </div>
+
+                @endif
+
+            </div>
+
+            <div class="flex justify-end gap-3">
+
+                <button
+                    type="button"
+                    onclick="document.getElementById('editPelatihan{{ $item->id }}').classList.add('hidden')"
+                    class="bg-gray-200 px-5 py-3 rounded-xl">
+
+                    Batal
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-xl">
+
+                    Update
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@endforeach
+
 @endsection

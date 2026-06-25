@@ -56,7 +56,7 @@ class PelatihanController extends Controller
         );
     }
 
-    public function update(Request $request, $id)
+        public function update(Request $request, $id)
     {
         $pelatihan = Pelatihan::findOrFail($id);
 
@@ -71,16 +71,16 @@ class PelatihanController extends Controller
             'penyelenggara' => $request->penyelenggara,
 
             'lokasi' => $request->lokasi,
+
         ];
 
-            if ($request->hasFile('sertifikat')) {
+        if ($request->hasFile('sertifikat')) {
 
-        $file = $request
-            ->file('sertifikat')
-            ->store('sertifikat', 'public');
+            $data['sertifikat'] = $request
+                ->file('sertifikat')
+                ->store('sertifikat', 'public');
 
-        dd($file);
-    }
+        }
 
         $pelatihan->update($data);
 
