@@ -113,7 +113,16 @@
 
         </a>
 
-        
+        <a href="#"
+           class="flex items-center gap-3
+                  bg-white/10
+                  hover:bg-white/20
+                  transition
+                  px-4 py-3 rounded-xl">
+
+            ▣ Data Perizinan
+
+        </a>
 
     </div>
 
