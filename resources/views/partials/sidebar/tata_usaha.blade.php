@@ -58,7 +58,7 @@
 
         </a>
 
-        <a href="#"
+        <a href="{{ route('tata_usaha.pelatihan') }}"
            class="flex items-center gap-3
                   bg-white/10
                   hover:bg-white/20

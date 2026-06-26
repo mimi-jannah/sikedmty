@@ -17,4 +17,9 @@ class Pelatihan extends Model
         'sertifikat'
 
     ];
+
+        public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

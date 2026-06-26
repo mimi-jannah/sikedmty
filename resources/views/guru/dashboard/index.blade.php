@@ -10,7 +10,7 @@
         <div>
 
             <h1 class="text-5xl font-bold text-slate-800">
-                Dasbor Kinerja
+                Dasbor
             </h1>
 
             <p class="text-gray-500 mt-2">

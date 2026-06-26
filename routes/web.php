@@ -14,6 +14,8 @@ use App\Http\Controllers\TataUsaha\KinerjaController;
 use App\Http\Controllers\TataUsaha\LaporanKehadiranController;
 use App\Http\Controllers\TataUsaha\KelasController;
 use App\Http\Controllers\TataUsaha\MapelController;
+use App\Http\Controllers\TataUsaha\PelatihanController as TataUsahaPelatihanController;
+
 
 use App\Http\Controllers\KepalaSekolah\DashboardController as KepalaSekolahDashboardController;
 use App\Http\Controllers\KepalaSekolah\PerizinanController;
@@ -195,6 +197,17 @@ Route::middleware([
 
     Route::delete('/tata-usaha/mapel/{id}', [MapelController::class, 'destroy'])
         ->name('tata-usaha.mapel.destroy');
+
+    //pelatihan
+    Route::get('/pelatihan',[PelatihanController::class,'index'])
+        ->name('tata_usaha.pelatihan');
+
+    Route::put('/pelatihan/{id}',[PelatihanController::class,'update'])
+        ->name('tata_usaha.pelatihan.update');
+    
+    Route::delete('/pelatihan/{id}',[PelatihanController::class,'destroy'])
+        ->name('tata_usaha.pelatihan.destroy');
+
 
 });
 

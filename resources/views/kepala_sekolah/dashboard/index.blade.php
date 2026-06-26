@@ -8,7 +8,7 @@
     <div class="mb-10">
 
         <h1 class="text-5xl font-bold text-slate-800">
-            Dashboard Kepala Sekolah
+            Dasbor Kepala Sekolah
         </h1>
 
         <p class="text-slate-500 mt-3 text-lg">
@@ -69,7 +69,7 @@
                     shadow-xl">
 
             <p class="text-lg">
-                Data Cuti
+                Data Perizinan
             </p>
 
             <h2 class="text-4xl font-bold mt-2">
