@@ -169,24 +169,39 @@
                     {{-- AKSI --}}
                     <td class="p-5">
 
-                        <div class="flex justify-center">
+    <div class="flex justify-center gap-2">
 
-                            <button
-                                onclick="document.getElementById('editPelatihan{{ $item->id }}').classList.remove('hidden')"
-                                class="bg-yellow-500
-                                       hover:bg-yellow-600
-                                       text-white
-                                       px-4 py-2
-                                       rounded-xl
-                                       font-semibold">
+        {{-- EDIT --}}
+        <button
+            onclick="document.getElementById('editPelatihan{{ $item->id }}').classList.remove('hidden')"
+            class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-xl font-semibold">
 
-                                Edit
+            Edit
 
-                            </button>
+        </button>
 
-                        </div>
+        {{-- HAPUS --}}
+        <form
+            action="{{ route('tata_usaha.pelatihan.destroy',$item->id) }}"
+            method="POST"
+            onsubmit="return confirm('Yakin ingin menghapus data pelatihan ini?')">
 
-                    </td>
+            @csrf
+            @method('DELETE')
+
+            <button
+                type="submit"
+                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl font-semibold">
+
+                Hapus
+
+            </button>
+
+        </form>
+
+    </div>
+
+</td>
 
                 </tr>
 
@@ -233,11 +248,43 @@
 
         </h2>
 
-        <form action="{{ route('guru.pelatihan.store') }}"
-              method="POST"
-              enctype="multipart/form-data">
+        <form action="{{ route('tata_usaha.pelatihan.store') }}"
+      method="POST"
+      enctype="multipart/form-data">
 
-            @csrf
+    @csrf
+
+            {{-- GURU --}}
+        <div class="mb-5">
+
+            <label class="block mb-2 font-semibold">
+
+                Guru
+
+            </label>
+
+            <select
+                name="user_id"
+                required
+                class="w-full rounded-2xl border-gray-300">
+
+                <option value="">
+                    -- Pilih Guru --
+                </option>
+
+                @foreach($gurus as $guru)
+
+                    <option value="{{ $guru->id }}">
+
+                        {{ $guru->name }}
+
+                    </option>
+
+                @endforeach
+
+            </select>
+
+        </div>
 
             {{-- TANGGAL --}}
             <div class="mb-5">

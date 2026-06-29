@@ -199,14 +199,17 @@ Route::middleware([
         ->name('tata-usaha.mapel.destroy');
 
     //pelatihan
-    Route::get('/pelatihan',[PelatihanController::class,'index'])
-        ->name('tata_usaha.pelatihan');
+    Route::get('/pelatihan',[TataUsahaPelatihanController::class,'index']
+        )->name('tata_usaha.pelatihan');
 
-    Route::put('/pelatihan/{id}',[PelatihanController::class,'update'])
-        ->name('tata_usaha.pelatihan.update');
-    
-    Route::delete('/pelatihan/{id}',[PelatihanController::class,'destroy'])
-        ->name('tata_usaha.pelatihan.destroy');
+    Route::post('/pelatihan/store',[TataUsahaPelatihanController::class,'store']
+        )->name('tata_usaha.pelatihan.store');
+
+    Route::put('/pelatihan/{id}',[TataUsahaPelatihanController::class,'update']
+        )->name('tata_usaha.pelatihan.update');
+
+    Route::delete('/pelatihan/{id}',[TataUsahaPelatihanController::class,'destroy']
+        )->name('tata_usaha.pelatihan.destroy');
 
 
 });
