@@ -19,7 +19,7 @@
 
 <body class="bg-gradient-to-br from-slate-100 to-green-50 overflow-x-hidden">
 
-<div class="flex min-h-screen">
+
 
         {{-- SIDEBAR --}}
         @if(auth()->user()->role->slug == 'guru')
@@ -36,7 +36,7 @@
 
         @endif
 
-        <div class="flex-1 flex flex-col min-h-screen lg:ml-72">
+        <div class="flex-1 flex flex-col min-h-screen ml-72">
 
             {{-- CONTENT --}}
             <main class="flex-1 p-8 overflow-x-hidden">
