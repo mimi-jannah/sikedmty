@@ -1,119 +1,175 @@
-<!DOCTYPE html>
-<html lang="en">
+<aside class="w-64 min-h-screen
+              bg-gradient-to-b
+              from-green-800
+              to-emerald-700
+              text-white
+              relative shadow-2xl">
 
-<head>
+    {{-- LOGO --}}
+    <div class="p-6 border-b border-green-600">
 
-    <meta charset="UTF-8">
+        <div class="flex items-center gap-3">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+            <img src="{{ asset('images/LogoSekolah.jpeg') }}"
+                 class="w-14 h-14 object-contain">
 
-    <title>SIKED MTY</title>
+            <div>
 
-    @vite([
-        'resources/css/app.css',
-        'resources/js/app.js'
-    ])
+                <h1 class="font-bold text-lg">
 
-</head>
+                    SIKED MTY
 
-<body class="bg-gradient-to-br from-slate-100 to-green-50 overflow-x-hidden">
+                </h1>
 
+                <p class="text-xs text-green-100">
 
+                    MTSS Thamrin Yahya
 
-        {{-- SIDEBAR --}}
-        @if(auth()->user()->role->slug == 'guru')
+                </p>
 
-            @include('partials.sidebar.guru')
-
-        @elseif(auth()->user()->role->slug == 'tata_usaha')
-
-            @include('partials.sidebar.tata_usaha')
-
-        @elseif(auth()->user()->role->slug == 'kepala_sekolah')
-
-            @include('partials.sidebar.kepala_sekolah')
-
-        @endif
-
-        <div class="flex-1 flex flex-col min-h-screen ml-72">
-
-            {{-- CONTENT --}}
-            <main class="flex-1 p-8 overflow-x-hidden">
-
-                @yield('content')
-
-            </main>
-
-            {{-- FOOTER --}}
-            @include('partials.footer')
+            </div>
 
         </div>
 
     </div>
 
-    {{-- SWEET ALERT --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- MENU --}}
+    <div class="p-4 space-y-3">
 
-    {{-- SUCCESS --}}
-    @if(session('success'))
+        <a href="{{ route('tata_usaha.dashboard') }}"
+           class="flex items-center gap-3
+                  bg-white/10
+                  hover:bg-white/20
+                  transition
+                  px-4 py-3 rounded-xl">
 
-    <script>
+            ▣ Dasbor
 
-        let pesan = @json(session('success'));
+        </a>
 
-        let icon = 'success';
-        let title = 'Berhasil';
+        <a href="{{ route('tata_usaha.data_guru') }}"
+           class="flex items-center gap-3
+                  bg-white/10
+                  hover:bg-white/20
+                  transition
+                  px-4 py-3 rounded-xl">
 
-        // KHUSUS TERLAMBAT
-        if (pesan.includes('Terlambat')) {
+            ▣ Data Guru/Staff
 
-            icon = 'error';
-            title = 'Kehadiran Terlambat';
+        </a>
 
-        }
+        <a href="{{ route('tata_usaha.pelatihan') }}"
+           class="flex items-center gap-3
+                  bg-white/10
+                  hover:bg-white/20
+                  transition
+                  px-4 py-3 rounded-xl">
 
-        Swal.fire({
+            ▣ Data Pelatihan
 
-            icon: icon,
+        </a>
 
-            title: title,
+            <a href="{{ route('tu.kinerja') }}"
+                class="flex items-center gap-3
+                bg-white/10
+                hover:bg-white/20
+                transition
+                px-4 py-3 rounded-xl">
 
-            text: pesan,
+            ▣ Data Kinerja
 
-            confirmButtonText: 'OK',
+        </a>
 
-            confirmButtonColor: '#16a34a'
+        <a href="{{ route('tata_usaha.laporan_kehadiran') }}"
+        class="flex items-center gap-3
+          bg-white/10
+          hover:bg-white/20
+          transition
+          px-4 py-3 rounded-xl">
 
-        });
+    ▣ Data Kehadiran
 
-    </script>
+</a>
 
-    @endif
+        <a href="{{ route('tata_usaha.kelas.index') }}"
+        class="flex items-center gap-3
+                bg-white/10
+                hover:bg-white/20
+                transition
+                px-4 py-3 rounded-xl">
 
-    {{-- ERROR --}}
-    @if(session('error'))
+            ▣ Daftar Kelas
 
-    <script>
+        </a>
 
-        Swal.fire({
+        <a href="{{ route('tata-usaha.mapel') }}"
+           class="flex items-center gap-3
+                  bg-white/10
+                  hover:bg-white/20
+                  transition
+                  px-4 py-3 rounded-xl">
 
-            icon: 'error',
+            ▣ Mata Pelajaran
 
-            title: 'Gagal',
+        </a>
 
-            text: @json(session('error')),
+        <a href="#"
+           class="flex items-center gap-3
+                  bg-white/10
+                  hover:bg-white/20
+                  transition
+                  px-4 py-3 rounded-xl">
 
-            confirmButtonText: 'OK',
+            ▣ Data Perizinan
 
-            confirmButtonColor: '#dc2626'
+        </a>
 
-        });
+    </div>
 
-    </script>
+    {{-- PROFILE --}}
+    <div class="absolute bottom-0 left-0 w-64
+                p-5 border-t border-green-600">
 
-    @endif
+        <div class="flex items-center justify-between">
 
-</body>
+            <div class="flex items-center gap-3">
 
-</html>
+                <img src="{{ asset('images/wosok.jpg') }}"
+                    alt="Profile"
+                    class="w-10 h-10 rounded-full object-cover border-2 border-white">
+
+                <div>
+
+                    <h1 class="font-semibold text-sm">
+
+                        {{ auth()->user()->name }}
+
+                    </h1>
+
+                    <p class="text-xs text-green-100">
+
+                        Tata Usaha
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <form method="POST"
+                action="{{ route('logout') }}">
+                @csrf
+
+                <button type="submit"
+                        class="text-xl hover:text-red-300 transition">
+
+                    ⎋
+            </button>
+
+        </form>
+
+        </div>
+
+    </div>
+
+</aside>
