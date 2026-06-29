@@ -1,175 +1,121 @@
-<aside class="w-64 min-h-screen
-              bg-gradient-to-b
-              from-green-800
-              to-emerald-700
-              text-white
-              relative shadow-2xl">
+<!DOCTYPE html>
+<html lang="en">
 
-    {{-- LOGO --}}
-    <div class="p-6 border-b border-green-600">
+<head>
 
-        <div class="flex items-center gap-3">
+    <meta charset="UTF-8">
 
-            <img src="{{ asset('images/LogoSekolah.jpeg') }}"
-                 class="w-14 h-14 object-contain">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-            <div>
+    <title>SIKED MTY</title>
 
-                <h1 class="font-bold text-lg">
+    @vite([
+        'resources/css/app.css',
+        'resources/js/app.js'
+    ])
 
-                    SIKED MTY
+</head>
 
-                </h1>
+<body class="bg-gradient-to-br
+             from-slate-100
+             to-green-50">
 
-                <p class="text-xs text-green-100">
+    <div class="flex">
 
-                    MTSS Thamrin Yahya
+        {{-- SIDEBAR --}}
+        @if(auth()->user()->role->slug == 'guru')
 
-                </p>
+            @include('partials.sidebar.guru')
 
-            </div>
+        @elseif(auth()->user()->role->slug == 'tata_usaha')
 
-        </div>
+            @include('partials.sidebar.tata_usaha')
 
-    </div>
+        @elseif(auth()->user()->role->slug == 'kepala_sekolah')
 
-    {{-- MENU --}}
-    <div class="p-4 space-y-3">
+            @include('partials.sidebar.kepala_sekolah')
 
-        <a href="{{ route('tata_usaha.dashboard') }}"
-           class="flex items-center gap-3
-                  bg-white/10
-                  hover:bg-white/20
-                  transition
-                  px-4 py-3 rounded-xl">
+        @endif
 
-            ▣ Dasbor
+        <div class="flex-1 flex flex-col min-h-screen">
 
-        </a>
+            {{-- CONTENT --}}
+            <main class="p-6 flex-1">
 
-        <a href="{{ route('tata_usaha.data_guru') }}"
-           class="flex items-center gap-3
-                  bg-white/10
-                  hover:bg-white/20
-                  transition
-                  px-4 py-3 rounded-xl">
+                @yield('content')
 
-            ▣ Data Guru/Staff
+            </main>
 
-        </a>
-
-        <a href="{{ route('tata_usaha.pelatihan') }}"
-           class="flex items-center gap-3
-                  bg-white/10
-                  hover:bg-white/20
-                  transition
-                  px-4 py-3 rounded-xl">
-
-            ▣ Data Pelatihan
-
-        </a>
-
-            <a href="{{ route('tu.kinerja') }}"
-                class="flex items-center gap-3
-                bg-white/10
-                hover:bg-white/20
-                transition
-                px-4 py-3 rounded-xl">
-
-            ▣ Data Kinerja
-
-        </a>
-
-        <a href="{{ route('tata_usaha.laporan_kehadiran') }}"
-        class="flex items-center gap-3
-          bg-white/10
-          hover:bg-white/20
-          transition
-          px-4 py-3 rounded-xl">
-
-    ▣ Data Kehadiran
-
-</a>
-
-        <a href="{{ route('tata_usaha.kelas.index') }}"
-        class="flex items-center gap-3
-                bg-white/10
-                hover:bg-white/20
-                transition
-                px-4 py-3 rounded-xl">
-
-            ▣ Daftar Kelas
-
-        </a>
-
-        <a href="{{ route('tata-usaha.mapel') }}"
-           class="flex items-center gap-3
-                  bg-white/10
-                  hover:bg-white/20
-                  transition
-                  px-4 py-3 rounded-xl">
-
-            ▣ Mata Pelajaran
-
-        </a>
-
-        <a href="#"
-           class="flex items-center gap-3
-                  bg-white/10
-                  hover:bg-white/20
-                  transition
-                  px-4 py-3 rounded-xl">
-
-            ▣ Data Perizinan
-
-        </a>
-
-    </div>
-
-    {{-- PROFILE --}}
-    <div class="absolute bottom-0 left-0 w-64
-                p-5 border-t border-green-600">
-
-        <div class="flex items-center justify-between">
-
-            <div class="flex items-center gap-3">
-
-                <img src="{{ asset('images/wosok.jpg') }}"
-                    alt="Profile"
-                    class="w-10 h-10 rounded-full object-cover border-2 border-white">
-
-                <div>
-
-                    <h1 class="font-semibold text-sm">
-
-                        {{ auth()->user()->name }}
-
-                    </h1>
-
-                    <p class="text-xs text-green-100">
-
-                        Tata Usaha
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <form method="POST"
-                action="{{ route('logout') }}">
-                @csrf
-
-                <button type="submit"
-                        class="text-xl hover:text-red-300 transition">
-
-                    ⎋
-            </button>
-
-        </form>
+            {{-- FOOTER --}}
+            @include('partials.footer')
 
         </div>
 
     </div>
 
-</aside>
+    {{-- SWEET ALERT --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- SUCCESS --}}
+    @if(session('success'))
+
+    <script>
+
+        let pesan = @json(session('success'));
+
+        let icon = 'success';
+        let title = 'Berhasil';
+
+        // KHUSUS TERLAMBAT
+        if (pesan.includes('Terlambat')) {
+
+            icon = 'error';
+            title = 'Kehadiran Terlambat';
+
+        }
+
+        Swal.fire({
+
+            icon: icon,
+
+            title: title,
+
+            text: pesan,
+
+            confirmButtonText: 'OK',
+
+            confirmButtonColor: '#16a34a'
+
+        });
+
+    </script>
+
+    @endif
+
+    {{-- ERROR --}}
+    @if(session('error'))
+
+    <script>
+
+        Swal.fire({
+
+            icon: 'error',
+
+            title: 'Gagal',
+
+            text: @json(session('error')),
+
+            confirmButtonText: 'OK',
+
+            confirmButtonColor: '#dc2626'
+
+        });
+
+    </script>
+
+    @endif
+
+</body>
+
+</html>

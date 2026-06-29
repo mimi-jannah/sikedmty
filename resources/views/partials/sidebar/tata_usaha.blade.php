@@ -1,19 +1,12 @@
-<aside
-class="fixed
-       top-0
-       left-0
-       h-screen
-       w-72
-       bg-gradient-to-b
-       from-green-800
-       to-emerald-700
-       text-white
-       shadow-2xl
-       flex
-       flex-col">
+<aside class="w-64 min-h-screen
+              bg-gradient-to-b
+              from-green-800
+              to-emerald-700
+              text-white
+              relative shadow-2xl">
 
     {{-- LOGO --}}
-    <div class="px-6 py-5 border-b border-green-700 flex-shrink-0">
+    <div class="p-6 border-b border-green-600">
 
         <div class="flex items-center gap-3">
 
@@ -41,15 +34,14 @@ class="fixed
     </div>
 
     {{-- MENU --}}
-    <div class="flex-1 overflow-y-auto px-4 py-5 space-y-3">
+    <div class="p-4 space-y-3">
 
         <a href="{{ route('tata_usaha.dashboard') }}"
-            class="flex items-center gap-3
-                px-4 py-3
-                rounded-xl
-                transition-all duration-200
-                hover:bg-white/20
-                hover:translate-x-1">
+           class="flex items-center gap-3
+                  bg-white/10
+                  hover:bg-white/20
+                  transition
+                  px-4 py-3 rounded-xl">
 
             ▣ Dasbor
 
@@ -57,11 +49,10 @@ class="fixed
 
         <a href="{{ route('tata_usaha.data_guru') }}"
            class="flex items-center gap-3
-                px-4 py-3
-                rounded-xl
-                transition-all duration-200
-                hover:bg-white/20
-                hover:translate-x-1">
+                  bg-white/10
+                  hover:bg-white/20
+                  transition
+                  px-4 py-3 rounded-xl">
 
             ▣ Data Guru/Staff
 
@@ -69,11 +60,10 @@ class="fixed
 
         <a href="{{ route('tata_usaha.pelatihan') }}"
            class="flex items-center gap-3
-                px-4 py-3
-                rounded-xl
-                transition-all duration-200
-                hover:bg-white/20
-                hover:translate-x-1">
+                  bg-white/10
+                  hover:bg-white/20
+                  transition
+                  px-4 py-3 rounded-xl">
 
             ▣ Data Pelatihan
 
@@ -81,47 +71,43 @@ class="fixed
 
             <a href="{{ route('tu.kinerja') }}"
                 class="flex items-center gap-3
-                    px-4 py-3
-                    rounded-xl
-                    transition-all duration-200
-                    hover:bg-white/20
-                    hover:translate-x-1">
+                bg-white/10
+                hover:bg-white/20
+                transition
+                px-4 py-3 rounded-xl">
 
             ▣ Data Kinerja
 
         </a>
 
         <a href="{{ route('tata_usaha.laporan_kehadiran') }}"
-                class="flex items-center gap-3
-                    px-4 py-3
-                    rounded-xl
-                    transition-all duration-200
-                    hover:bg-white/20
-                    hover:translate-x-1">
+        class="flex items-center gap-3
+          bg-white/10
+          hover:bg-white/20
+          transition
+          px-4 py-3 rounded-xl">
 
-            ▣ Data Kehadiran
+    ▣ Data Kehadiran
 
-        </a>
+</a>
 
         <a href="{{ route('tata_usaha.kelas.index') }}"
-                class="flex items-center gap-3
-                px-4 py-3
-                rounded-xl
-                transition-all duration-200
+        class="flex items-center gap-3
+                bg-white/10
                 hover:bg-white/20
-                hover:translate-x-1">
+                transition
+                px-4 py-3 rounded-xl">
 
             ▣ Daftar Kelas
 
         </a>
 
         <a href="{{ route('tata-usaha.mapel') }}"
-            class="flex items-center gap-3
-                px-4 py-3
-                rounded-xl
-                transition-all duration-200
-                hover:bg-white/20
-                hover:translate-x-1">
+           class="flex items-center gap-3
+                  bg-white/10
+                  hover:bg-white/20
+                  transition
+                  px-4 py-3 rounded-xl">
 
             ▣ Mata Pelajaran
 
@@ -129,11 +115,10 @@ class="fixed
 
         <a href="#"
            class="flex items-center gap-3
-            px-4 py-3
-            rounded-xl
-            transition-all duration-200
-            hover:bg-white/20
-            hover:translate-x-1">
+                  bg-white/10
+                  hover:bg-white/20
+                  transition
+                  px-4 py-3 rounded-xl">
 
             ▣ Data Perizinan
 
@@ -142,11 +127,8 @@ class="fixed
     </div>
 
     {{-- PROFILE --}}
-    <div class="mt-auto
-            border-t
-            border-green-700
-            p-5
-            flex-shrink-0">
+    <div class="absolute bottom-0 left-0 w-64
+                p-5 border-t border-green-600">
 
         <div class="flex items-center justify-between">
 
@@ -154,7 +136,7 @@ class="fixed
 
                 <img src="{{ asset('images/wosok.jpg') }}"
                     alt="Profile"
-                    class="w-12 h-12 rounded-full object-cover border-2 border-white">
+                    class="w-10 h-10 rounded-full object-cover border-2 border-white">
 
                 <div>
 
@@ -178,13 +160,8 @@ class="fixed
                 action="{{ route('logout') }}">
                 @csrf
 
-                <button
-                    class="w-10
-                        h-10
-                        rounded-full
-                        bg-white/10
-                        hover:bg-red-500
-                        transition">
+                <button type="submit"
+                        class="text-xl hover:text-red-300 transition">
 
                     ⎋
             </button>
