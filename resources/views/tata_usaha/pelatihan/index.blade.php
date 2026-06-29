@@ -2,40 +2,255 @@
 
 @section('content')
 
-<div class="p-8">
+<div class="min-h-screen bg-slate-100 p-8">
 
     {{-- HEADER --}}
-    <div class="flex justify-between items-center mb-8">
+<div class="bg-white rounded-3xl shadow-md p-8 mb-8">
 
-        <div>
+    <div class="flex justify-between items-center">
 
-            <h1 class="text-5xl font-bold text-slate-800">
-                Data Pelatihan
-            </h1>
+        <div class="flex items-center gap-5">
 
-            <p class="text-gray-500 mt-2">
-                Riwayat pelatihan guru & staff
-            </p>
+            <div
+                class="w-20
+                       h-20
+                       rounded-2xl
+                       bg-green-100
+                       flex
+                       items-center
+                       justify-center">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="w-10 h-10 text-green-700"
+                     fill="currentColor"
+                     viewBox="0 0 24 24">
+
+                    <path d="M3 5h18v2H3zm2 4h14v10H5z"/>
+
+                </svg>
+
+            </div>
+
+            <div>
+
+                <h1 class="text-4xl font-bold text-slate-800">
+
+                    Data Pelatihan
+
+                </h1>
+
+                <p class="text-gray-500 mt-1">
+
+                    Ringkasan pelatihan guru & staff
+                    MTSS Thamrin Yahya
+
+                </p>
+
+            </div>
 
         </div>
 
-        {{-- TOMBOL TAMBAH --}}
         <button
             onclick="document.getElementById('modalTambahPelatihan').classList.remove('hidden')"
             class="bg-gradient-to-r
                    from-green-700
                    to-emerald-500
+                   hover:scale-105
+                   duration-300
                    text-white
-                   px-6 py-3
+                   px-8
+                   py-4
                    rounded-xl
-                   font-semibold
-                   shadow-lg">
+                   shadow-lg
+                   font-semibold">
 
-            Tambah Pelatihan +
+            + Tambah Pelatihan
 
         </button>
 
     </div>
+
+</div>
+
+        <div class="grid grid-cols-4 gap-6 mb-8">
+
+    <div class="bg-white rounded-2xl shadow p-6">
+
+        <p class="text-gray-500 text-sm">
+
+            Total Pelatihan
+
+        </p>
+
+        <h2 class="text-4xl font-bold text-green-700 mt-2">
+
+            {{ $pelatihans->count() }}
+
+        </h2>
+
+        <p class="text-gray-400">
+
+            Kegiatan
+
+        </p>
+
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-6">
+
+        <p class="text-gray-500 text-sm">
+
+            Guru Mengikuti
+
+        </p>
+
+        <h2 class="text-4xl font-bold text-green-700 mt-2">
+
+            {{ $pelatihans->groupBy('user_id')->count() }}
+
+        </h2>
+
+        <p class="text-gray-400">
+
+            Orang
+
+        </p>
+
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-6">
+
+        <p class="text-gray-500 text-sm">
+
+            Tahun Ini
+
+        </p>
+
+        <h2 class="text-4xl font-bold text-green-700 mt-2">
+
+            {{ $pelatihans->where('tanggal_pelatihan','>=',now()->startOfYear())->count() }}
+
+        </h2>
+
+        <p class="text-gray-400">
+
+            Kegiatan
+
+        </p>
+
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-6">
+
+        <p class="text-gray-500 text-sm">
+
+            Sertifikat
+
+        </p>
+
+        <h2 class="text-4xl font-bold text-green-700 mt-2">
+
+            {{ $pelatihans->whereNotNull('sertifikat')->count() }}
+
+        </h2>
+
+        <p class="text-gray-400">
+
+            File
+
+        </p>
+
+    </div>
+
+</div>
+
+<div class="bg-white rounded-3xl shadow mb-6">
+
+    <div
+        class="bg-gradient-to-r
+               from-green-700
+               to-emerald-500
+               text-white
+               px-6
+               py-4
+               rounded-t-3xl">
+
+        <h2 class="font-bold">
+
+            Daftar Pelatihan
+
+        </h2>
+
+    </div>
+
+    <div class="p-5">
+
+        <div class="grid grid-cols-4 gap-4">
+
+            <input
+                id="searchPelatihan"
+                type="text"
+                placeholder="Cari nama pelatihan..."
+                class="rounded-xl border-gray-300">
+
+            <select
+                id="filterGuru"
+                class="rounded-xl border-gray-300">
+
+                <option>
+
+                    Semua Guru
+
+                </option>
+
+                @foreach($gurus as $guru)
+
+                    <option>
+
+                        {{ $guru->name }}
+
+                    </option>
+
+                @endforeach
+
+            </select>
+
+            <select
+                class="rounded-xl border-gray-300">
+
+                <option>
+
+                    Semua Lokasi
+
+                </option>
+
+                <option>
+
+                    Sekolah
+
+                </option>
+
+                <option>
+
+                    Luar Sekolah
+
+                </option>
+
+            </select>
+
+            <button
+                id="btnFilter"
+                class="bg-green-700 text-white rounded-xl">
+
+                Filter
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
     {{-- TABLE --}}
     <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
@@ -86,11 +301,11 @@
 
             </thead>
 
-            <tbody>
+            <tbody id="tablePelatihan">
 
                 @forelse($pelatihans as $item)
 
-                <tr class="border-t hover:bg-slate-50 transition">
+                <tr class="border-b hover:bg-green-50 duration-200 pelatihan-row">
 
                     {{-- NO --}}
                     <td class="p-5">
@@ -98,8 +313,37 @@
                     </td>
 
                     <td class="p-5">
-                        {{ $item->user->name }}
-                    </td>
+
+    <div class="flex items-center gap-3">
+
+        <div
+            class="w-11
+                   h-11
+                   rounded-full
+                   bg-green-100
+                   flex
+                   items-center
+                   justify-center
+                   text-green-700
+                   font-bold">
+
+            {{ strtoupper(substr($item->user->name,0,1)) }}
+
+        </div>
+
+        <div>
+
+            <p class="font-semibold text-slate-700">
+
+                {{ $item->user->name }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+</td>
 
                     {{-- TANGGAL --}}
                     <td class="p-5">
@@ -109,9 +353,12 @@
                     </td>
 
                     {{-- NAMA --}}
-                    <td class="p-5 font-medium text-slate-700">
+                    <td class="p-5">
+                        <p class="nama-pelatihan font-semibold text-slate-700">
 
-                        {{ $item->nama_pelatihan }}
+                            {{ $item->nama_pelatihan }}
+
+                        </p>
 
                     </td>
 
@@ -162,7 +409,37 @@
                     {{-- LOKASI --}}
                     <td class="p-5">
 
-                        {{ $item->lokasi }}
+                        @if($item->lokasi=="Sekolah")
+
+                        <span
+                            class="bg-green-100
+                            text-green-700
+                            px-3
+                            py-1
+                            rounded-full
+                            text-sm
+                            font-semibold">
+
+                            Sekolah
+
+                        </span>
+
+                        @else
+
+                        <span
+                            class="bg-blue-100
+                            text-blue-700
+                            px-3
+                            py-1
+                            rounded-full
+                            text-sm
+                            font-semibold">
+
+                            Luar Sekolah
+
+                        </span>
+
+                        @endif
 
                     </td>
 
@@ -222,9 +499,105 @@
 
                 @endforelse
 
+            <script>
+
+            document.getElementById("btnFilter").addEventListener("click", function(){
+
+                let keyword = document
+                    .getElementById("searchPelatihan")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+                let rows = document.querySelectorAll(".pelatihan-row");
+
+                rows.forEach(function(row){
+
+                    let namaElement = row.querySelector(".nama-pelatihan");
+
+                    if(!namaElement){
+                        return;
+                    }
+
+                    let nama = namaElement.innerText.toLowerCase();
+
+                    if(nama.includes(keyword))
+                    {
+                        row.style.display = "";
+                    }
+                    else
+                    {
+                        row.style.display = "none";
+                    }
+
+                });
+
+            });
+
+    </script>
+
             </tbody>
 
         </table>
+
+                <div
+                class="flex
+                justify-between
+                items-center
+                px-6
+                py-4
+                bg-gray-50">
+
+                <p class="text-gray-500">
+
+                Menampilkan
+
+                <b>
+
+                {{ $pelatihans->count() }}
+
+                </b>
+
+                data pelatihan
+
+                </p>
+
+                <div class="flex gap-2">
+
+        <button
+                class="w-10
+                h-10
+                rounded-lg
+                border">
+
+                <
+
+        </button>
+
+        <button
+                class="w-10
+                h-10
+                rounded-lg
+                bg-green-700
+                text-white">
+
+                1
+
+        </button>
+
+                <button
+                    class="w-10
+                    h-10
+                    rounded-lg
+                    border">
+
+                    >
+
+                </button>
+
+            </div>
+
+        </div>
 
     </div>
 
