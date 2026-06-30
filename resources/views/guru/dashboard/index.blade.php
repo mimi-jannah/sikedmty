@@ -92,11 +92,6 @@
             <p class="text-gray-500">
                 Total Kelas
             </p>
-
-            <h2 class="text-4xl font-bold text-slate-800 mt-2">
-                {{ $totalKelas }}
-            </h2>
-
         </div>
 
     </div>
