@@ -17,7 +17,7 @@
               text-lg
               mb-10">
 
-        Persetujuan izin/cuti guru dan staff
+        Persetujuan cuti guru dan staff
 
     </p>
 

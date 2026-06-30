@@ -12,9 +12,9 @@ use App\Http\Controllers\TataUsaha\KinerjaController;
 use App\Http\Controllers\TataUsaha\LaporanKehadiranController;
 use App\Http\Controllers\TataUsaha\PelatihanController as TataUsahaPelatihanController;
 
-
 use App\Http\Controllers\KepalaSekolah\DashboardController as KepalaSekolahDashboardController;
 use App\Http\Controllers\KepalaSekolah\CutiKepsekController;
+use App\Http\Controllers\KepalaSekolah\PenilaianKinerjaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -164,15 +164,7 @@ Route::middleware([
     Route::delete('/pelatihan/{id}',[TataUsahaPelatihanController::class,'destroy']
         )->name('tata_usaha.pelatihan.destroy');
 
-    //form penilaian
-    Route::get('/form-penilaian',[FormPenilaianController::class, 'index'])
-        ->name('tata_usaha.form_penilaian.index');
-
-    Route::get('/form-penilaian/create',[FormPenilaianController::class, 'create'])
-        ->name('tata_usaha.form_penilaian.create');
-
-    Route::post('/kinerja/store', [KinerjaController::class, 'store'])
-        ->name('tu.kinerja.store');
+    
 
 
 });
@@ -189,10 +181,22 @@ Route::middleware([
         KepalaSekolahDashboardController::class,
         'index'
     ])->name('kepala_sekolah.dashboard');
+
+     Route::get('/kinerja', [PenilaianKinerjaController::class, 'index'])
+        ->name('kinerja.index');
+
+    Route::post('/kinerja/store', [PenilaianKinerjaController::class,'store'])
+        ->name('kinerja.store');
+    
+    Route::get('/kinerja/{id}/edit', [PenilaianKinerjaController::class, 'edit'])
+        ->name('kinerja.edit');
+
+    Route::put('/kinerja/{id}', [PenilaianKinerjaController::class, 'update'])
+        ->name('kinerja.update');
 });
 
 
-//izin atau perizinan
+//cuti
     Route::get(
         '/kepala-sekolah/cuti_kepsek',
         [CutiKepsekController::class, 'index']
@@ -218,6 +222,9 @@ Route::middleware([
         '/kehadiran/{id}',
         [\App\Http\Controllers\KepalaSekolah\KehadiranController::class, 'detail']
     )->name('kepala.kehadiran.detail');
+
+    //penilaian kinerja
+   
 
 
 Route::get('/redirect-dashboard', function () {
