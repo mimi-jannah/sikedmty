@@ -216,6 +216,7 @@
             </select>
 
             <select
+                id="filterLokasi"
                 class="rounded-xl border-gray-300">
 
                 <option>
@@ -333,7 +334,7 @@
 
         <div>
 
-            <p class="font-semibold text-slate-700">
+            <p class="nama-guru font-semibold text-slate-700">
 
                 {{ $item->user->name }}
 
@@ -412,7 +413,8 @@
                         @if($item->lokasi=="Sekolah")
 
                         <span
-                            class="bg-green-100
+                        class="lokasi-pelatihan
+                            bg-green-100
                             text-green-700
                             px-3
                             py-1
@@ -420,20 +422,21 @@
                             text-sm
                             font-semibold">
 
-                            Sekolah
+                        Sekolah
 
-                        </span>
+                    </span>
 
                         @else
 
                         <span
-                            class="bg-blue-100
-                            text-blue-700
-                            px-3
-                            py-1
-                            rounded-full
-                            text-sm
-                            font-semibold">
+                            class="lokasi-pelatihan
+                                bg-blue-100
+                                text-blue-700
+                                px-3
+                                py-1
+                                rounded-full
+                                text-sm
+                                font-semibold">
 
                             Luar Sekolah
 
@@ -501,40 +504,66 @@
 
             <script>
 
-            document.getElementById("btnFilter").addEventListener("click", function(){
+                document.getElementById("btnFilter").addEventListener("click", function () {
 
-                let keyword = document
-                    .getElementById("searchPelatihan")
-                    .value
-                    .trim()
-                    .toLowerCase();
+                    let keyword = document
+                        .getElementById("searchPelatihan")
+                        .value
+                        .toLowerCase()
+                        .trim();
 
-                let rows = document.querySelectorAll(".pelatihan-row");
+                    let guru = document
+                        .getElementById("filterGuru")
+                        .value;
 
-                rows.forEach(function(row){
+                    let lokasi = document
+                        .getElementById("filterLokasi")
+                        .value;
 
-                    let namaElement = row.querySelector(".nama-pelatihan");
+                    let rows = document.querySelectorAll(".pelatihan-row");
 
-                    if(!namaElement){
-                        return;
-                    }
+                    rows.forEach(function(row){
 
-                    let nama = namaElement.innerText.toLowerCase();
+                        let nama = row
+                            .querySelector(".nama-pelatihan")
+                            .innerText
+                            .toLowerCase();
 
-                    if(nama.includes(keyword))
-                    {
-                        row.style.display = "";
-                    }
-                    else
-                    {
-                        row.style.display = "none";
-                    }
+                        let namaGuru = row
+                            .querySelector(".nama-guru")
+                            .innerText
+                            .trim();
+
+                        let namaLokasi = row
+                            .querySelector(".lokasi-pelatihan")
+                            .innerText
+                            .trim();
+
+                        let cocokNama = nama.includes(keyword);
+
+                        let cocokGuru =
+                            guru == "Semua Guru" ||
+                            namaGuru == guru;
+
+                        let cocokLokasi =
+                            lokasi == "Semua Lokasi" ||
+                            namaLokasi == lokasi;
+
+                        if(cocokNama && cocokGuru && cocokLokasi){
+
+                            row.style.display="";
+
+                        }else{
+
+                            row.style.display="none";
+
+                        }
+
+                    });
 
                 });
-
-            });
-
-    </script>
+                
+            </script>
 
             </tbody>
 

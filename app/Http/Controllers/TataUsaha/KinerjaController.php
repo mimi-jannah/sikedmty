@@ -17,28 +17,23 @@ class KinerjaController extends Controller
 
     public function store(Request $request)
 {
+    $request->validate([
+        'nama_form' => 'required',
+        'semester' => 'required',
+        'tahun_ajaran' => 'required',
+        'keterangan' => 'nullable'
+    ]);
+
     Kinerja::create([
 
-        'user_id' => auth()->id(),
-
-        'kategori' => $request->kategori,
-
-        'tanggal' => $request->tanggal,
-
-        'guru_staff' => $request->guru_staff,
-
-        'nama_pelatihan' => $request->nama_pelatihan,
-
-        'deskripsi' => $request->deskripsi,
-
-        'penyelenggara' => $request->penyelgara,
-
-        'lokasi' => $request->lokasi,
-
-        'status' => 'Menunggu'
+        'nama_form'      => $request->nama_form,
+        'semester'       => $request->semester,
+        'tahun_ajaran'   => $request->tahun_ajaran,
+        'keterangan'     => $request->keterangan,
+        'status'         => 'Aktif',
 
     ]);
 
-    return redirect()->back();
+    return redirect()->back()->with('success','Form penilaian berhasil ditambahkan.');
 }
 }

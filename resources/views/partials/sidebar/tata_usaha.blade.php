@@ -81,35 +81,13 @@
         </a>
 
         <a href="{{ route('tata_usaha.laporan_kehadiran') }}"
-        class="flex items-center gap-3
-          bg-white/10
-          hover:bg-white/20
-          transition
-          px-4 py-3 rounded-xl">
-
-    ▣ Data Kehadiran
-
-</a>
-
-        <a href="{{ route('tata_usaha.kelas.index') }}"
-        class="flex items-center gap-3
+                class="flex items-center gap-3
                 bg-white/10
                 hover:bg-white/20
                 transition
                 px-4 py-3 rounded-xl">
 
-            ▣ Daftar Kelas
-
-        </a>
-
-        <a href="{{ route('tata-usaha.mapel') }}"
-           class="flex items-center gap-3
-                  bg-white/10
-                  hover:bg-white/20
-                  transition
-                  px-4 py-3 rounded-xl">
-
-            ▣ Mata Pelajaran
+            ▣ Data Kehadiran
 
         </a>
 
@@ -120,7 +98,7 @@
                   transition
                   px-4 py-3 rounded-xl">
 
-            ▣ Data Perizinan
+            ▣ Data Cuti
 
         </a>
 

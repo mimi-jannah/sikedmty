@@ -77,11 +77,9 @@
           transition
           px-4 py-3 rounded-xl">
 
-            ▣ Data Perizinan
+            ▣ Pengajuan Cuti
 
         </a>
-
-        
 
         <a href="{{ route('kepala.kehadiran') }}"
             class="flex items-center gap-3

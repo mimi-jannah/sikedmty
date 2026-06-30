@@ -10,26 +10,17 @@ return new class extends Migration
 {
     Schema::create('kinerjas', function (Blueprint $table) {
 
-        $table->id();
+    $table->id();
 
-        $table->string('tanggal');
+    $table->string('nama_form');
+    $table->string('semester');
+    $table->string('tahun_ajaran');
+    $table->text('keterangan')->nullable();
+    $table->string('status')->default('Aktif');
 
-        $table->string('guru_staff');
+    $table->timestamps();
 
-        $table->string('nama_pelatihan');
-
-        $table->text('deskripsi');
-
-        $table->string('penyelenggara');
-
-        $table->string('lokasi');
-
-        $table->string('status')
-              ->default('Menunggu');
-
-        $table->timestamps();
-
-    });
+});
 }
 
     public function down(): void

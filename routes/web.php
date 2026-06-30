@@ -4,16 +4,12 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
 use App\Http\Controllers\Guru\KehadiranController;
 use App\Http\Controllers\Guru\CutiController;
-use App\Http\Controllers\Guru\KelasController as GuruKelasController;
-use App\Http\Controllers\Guru\MapelController as GuruMapelController;
 use App\Http\Controllers\Guru\PelatihanController;
 
 use App\Http\Controllers\TataUsaha\DashboardController as TataUsahaDashboardController;
 use App\Http\Controllers\TataUsaha\GuruStaffController as TataUsahaGuruStaffController;
 use App\Http\Controllers\TataUsaha\KinerjaController;
 use App\Http\Controllers\TataUsaha\LaporanKehadiranController;
-use App\Http\Controllers\TataUsaha\KelasController;
-use App\Http\Controllers\TataUsaha\MapelController;
 use App\Http\Controllers\TataUsaha\PelatihanController as TataUsahaPelatihanController;
 
 
@@ -68,14 +64,6 @@ Route::middleware([
 
     Route::post('/guru/cuti/store', [CutiController::class, 'store'])
     ->name('guru.cuti.store');
-
-    // daftar kelas
-    Route::get('/kelas', [GuruKelasController::class, 'index'])
-    ->name('guru.kelas.index');
-
-    //mapel
-    Route::get('/mata-pelajaran', [GuruMapelController::class, 'indexGuru'])
-    ->name('guru.mapel.index');
 
     //pelatihan
     Route::get('/pelatihan',[PelatihanController::class, 'index'])
@@ -148,8 +136,6 @@ Route::middleware([
         [KinerjaController::class, 'store'])
     ->name('tata-usaha.kinerja.store');
 
-    
-
     //laporan kehadiran
     Route::get(
         '/laporan-kehadiran',
@@ -166,38 +152,6 @@ Route::middleware([
         [LaporanKehadiranController::class, 'export']
     )->name('tata_usaha.kehadiran.export');
 
-    // daftar kelas
-    Route::get('/kelas', [KelasController::class, 'index'])
-        ->name('tata_usaha.kelas.index');
-
-    Route::get('/kelas/create', [KelasController::class, 'create'])
-        ->name('tata_usaha.kelas.create');
-
-    Route::post('/kelas/store', [KelasController::class, 'store'])
-        ->name('tata_usaha.kelas.store');
-
-    Route::get('/kelas/{id}/edit', [KelasController::class, 'edit'])
-        ->name('tata_usaha.kelas.edit');
-
-    Route::put('/kelas/{id}/update', [KelasController::class, 'update'])
-        ->name('tata_usaha.kelas.update');
-
-    Route::get('/kelas/{id}/hapus', [KelasController::class, 'destroy'])
-        ->name('tata_usaha.kelas.destroy');
-
-    // mata pelajaran
-    Route::get('/tata-usaha/mapel', [MapelController::class, 'index'])
-    ->name('tata-usaha.mapel');
-
-    Route::post('/tata-usaha/mapel/store', [MapelController::class, 'store'])
-        ->name('tata-usaha.mapel.store');
-
-    Route::put('/mapel/{id}',[MapelController::class, 'update'])
-        ->name('tata-usaha.mapel.update');
-
-    Route::delete('/tata-usaha/mapel/{id}', [MapelController::class, 'destroy'])
-        ->name('tata-usaha.mapel.destroy');
-
     //pelatihan
     Route::get('/pelatihan',[TataUsahaPelatihanController::class,'index']
         )->name('tata_usaha.pelatihan');
@@ -210,6 +164,16 @@ Route::middleware([
 
     Route::delete('/pelatihan/{id}',[TataUsahaPelatihanController::class,'destroy']
         )->name('tata_usaha.pelatihan.destroy');
+
+    //form penilaian
+    Route::get('/form-penilaian',[FormPenilaianController::class, 'index'])
+        ->name('tata_usaha.form_penilaian.index');
+
+    Route::get('/form-penilaian/create',[FormPenilaianController::class, 'create'])
+        ->name('tata_usaha.form_penilaian.create');
+
+    Route::post('/kinerja/store', [KinerjaController::class, 'store'])
+        ->name('tu.kinerja.store');
 
 
 });

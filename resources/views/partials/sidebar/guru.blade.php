@@ -69,6 +69,18 @@
 
         </a>
 
+         <a href="#"
+                class="flex items-center gap-3
+                bg-white/10
+                hover:bg-white/20
+                transition
+                px-4 py-3 rounded-xl">
+
+            ▣ Kinerja
+
+        </a>
+
+        
             <a href="{{ route('guru.cuti') }}"
                 class="flex items-center gap-3
                 bg-white/10
@@ -76,32 +88,10 @@
                 transition
                 px-4 py-3 rounded-xl">
 
-            ▣ Perizinan
+            ▣ Cuti
 
         </a>
-
-        <a href="{{ route('guru.kelas.index') }}"
-           class="flex items-center gap-3
-                  bg-white/10
-                  hover:bg-white/20
-                  transition
-                  px-4 py-3 rounded-xl">
-
-            ▣ Daftar Kelas
-
-        </a>
-
-        <a href="{{ route('guru.mapel.index') }}"
-           class="flex items-center gap-3
-                  bg-white/10
-                  hover:bg-white/20
-                  transition
-                  px-4 py-3 rounded-xl">
-
-            ▣ Mata Pelajaran
-
-        </a>
-
+        
     </div>
 
     {{-- PROFILE --}}

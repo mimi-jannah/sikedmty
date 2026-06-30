@@ -15,12 +15,9 @@ class DashboardController extends Controller
 
         $totalKehadiran = Kehadiran::count();
 
-        $totalKelas = Kelas::count();
-
         return view('tata_usaha.dashboard.index', compact(
             'totalGuru',
             'totalKehadiran',
-            'totalKelas',
         ));
     }
 }

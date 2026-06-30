@@ -8,16 +8,11 @@ class Kinerja extends Model
 {
     protected $fillable = [
 
-    'user_id',
-    'kategori',
-    'tanggal',
-    'guru_staff',
-    'nama_pelatihan',
-    'deskripsi',
-    'penyelenggara',
-    'lokasi',
-    'bukti',
-    'status'
+    'nama_form',
+    'semester',
+    'tahun_ajaran',
+    'keterangan',
+    'status',
 
-];
+    ];
 }
