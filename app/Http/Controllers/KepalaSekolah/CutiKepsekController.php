@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cuti;
 
-class PerizinanController extends Controller
+class CutiKepsekController extends Controller
 {
     public function index()
     {
         $cutis = Cuti::latest()->get();
 
         return view(
-            'kepala_sekolah.perizinan.index',
+            'kepala_sekolah.cuti_kepsek.index',
             compact('cutis')
         );
     }
@@ -29,10 +29,10 @@ class PerizinanController extends Controller
         ]);
 
         return back()->with(
-    'success',
-    'Perizinan Disetujui'
-);
-    }
+        'success',
+        'Perizinan Disetujui'
+    );
+        }
 
     public function tolak($id)
     {
@@ -44,9 +44,9 @@ class PerizinanController extends Controller
 
         ]);
 
-        return back()->with(
-    'error',
-    'Perizinan Ditolak'
-);
+            return back()->with(
+            'error',
+            'Perizinan Ditolak'
+        );
     }
 }

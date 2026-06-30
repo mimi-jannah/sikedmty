@@ -70,12 +70,12 @@
         </a>
 
 
-        <a href="{{ route('kepala.perizinan') }}"
-   class="flex items-center gap-3
-          bg-white/10
-          hover:bg-white/20
-          transition
-          px-4 py-3 rounded-xl">
+        <a href="{{ route('kepala_sekolah.cuti_kepsek') }}"
+            class="flex items-center gap-3
+            bg-white/10
+            hover:bg-white/20
+            transition
+            px-4 py-3 rounded-xl">
 
             ▣ Pengajuan Cuti
 

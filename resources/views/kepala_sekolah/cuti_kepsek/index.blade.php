@@ -9,7 +9,7 @@
                text-gray-800
                mb-3">
 
-        Validasi Perizinan
+        Validasi Cuti
 
     </h1>
 
@@ -36,7 +36,7 @@
                        font-bold
                        text-white">
 
-                Data Pengajuan Perizinan
+                Data Pengajuan Cuti
 
             </h2>
 
@@ -203,7 +203,7 @@
         <div class="flex gap-3">
 
             {{-- SETUJUI --}}
-            <form action="{{ route('kepala.perizinan.setujui', $cuti->id) }}"
+            <form action="{{ route('kepala.cuti_kepsek.setujui', $cuti->id) }}"
                   method="POST">
 
                 @csrf
@@ -224,7 +224,7 @@
             </form>
 
             {{-- TOLAK --}}
-            <form action="{{ route('kepala.perizinan.tolak', $cuti->id) }}"
+            <form action="{{ route('kepala.cuti_kepsek.tolak', $cuti->id) }}"
                   method="POST">
 
                 @csrf

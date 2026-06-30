@@ -14,8 +14,7 @@ use App\Http\Controllers\TataUsaha\PelatihanController as TataUsahaPelatihanCont
 
 
 use App\Http\Controllers\KepalaSekolah\DashboardController as KepalaSekolahDashboardController;
-use App\Http\Controllers\KepalaSekolah\PerizinanController;
-
+use App\Http\Controllers\KepalaSekolah\CutiKepsekController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -193,22 +192,21 @@ Route::middleware([
 });
 
 
-
 //izin atau perizinan
     Route::get(
-        '/kepala-sekolah/perizinan',
-        [PerizinanController::class, 'index']
-    )->name('kepala.perizinan');
+        '/kepala-sekolah/cuti_kepsek',
+        [CutiKepsekController::class, 'index']
+    )->name('kepala_sekolah.cuti_kepsek');
 
     Route::put(
-        '/kepala-sekolah/perizinan/setujui/{id}',
-        [PerizinanController::class, 'setujui']
-    )->name('kepala.perizinan.setujui');
+        '/kepala-sekolah/cuti_kepsek/setujui/{id}',
+        [CutiKepsekController::class, 'setujui']
+    )->name('kepala.cuti_kepsek.setujui');
 
     Route::put(
-        '/kepala-sekolah/perizinan/tolak/{id}',
-        [PerizinanController::class, 'tolak']
-    )->name('kepala.perizinan.tolak');
+        '/kepala-sekolah/cuti_kepsek/tolak/{id}',
+        [CutiKepsekController::class, 'tolak']
+    )->name('kepala.cuti_kepsek.tolak');
 
     //laporan kehadiran
     Route::get(

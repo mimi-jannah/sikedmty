@@ -6,13 +6,13 @@
 
     <h1 class="text-5xl font-bold text-gray-800 mb-3">
 
-        Data Perizinan
+        Data Cuti
 
     </h1>
 
     <p class="text-gray-500 text-lg mb-10">
 
-        Pengajuan Perizinan Guru/Staff
+        Pengajuan Cuti Guru/Staff
 
     </p>
 
@@ -21,7 +21,7 @@
 
         <h2 class="text-3xl font-bold text-green-700 mb-8">
 
-            Ajukan Perizinan
+            Ajukan Cuti
 
         </h2>
 
@@ -37,7 +37,7 @@
 
                     <label class="font-semibold block mb-2">
 
-                        Jenis Perizinan
+                        Jenis Cuti
 
                     </label>
 
@@ -144,7 +144,7 @@
 
             <h2 class="text-3xl font-bold text-white">
 
-                Riwayat Perizinan
+                Riwayat Cuti
 
             </h2>
 
