@@ -22,13 +22,10 @@ class DashboardController extends Controller
                         ->where('status', 'Terlambat')
                         ->count();
 
-        $totalKelas = Kelas::where('guru', $user->name)->count();
-
         return view('guru.dashboard.index', compact(
             'totalKehadiran',
             'hadir',
             'terlambat',
-            'totalKelas'
         ));
     }
 }
