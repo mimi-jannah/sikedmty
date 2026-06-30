@@ -81,19 +81,6 @@
 
         </div>
 
-        {{-- KELAS --}}
-        <div class="bg-white
-                    rounded-3xl
-                    p-6
-                    shadow-xl">
-
-            <div class="text-4xl mb-4">🏫</div>
-
-            <p class="text-gray-500">
-                Total Kelas
-            </p>
-        </div>
-
     </div>
 
     {{-- GRAFIK --}}
