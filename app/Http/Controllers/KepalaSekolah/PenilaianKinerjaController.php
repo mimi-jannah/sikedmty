@@ -45,9 +45,44 @@ class PenilaianKinerjaController extends Controller
 
         }
 
-        $penilaians = $query->latest()->get();
+        // Sorting
+            if ($request->sort == 'terbaru') {
 
-        $gurus = User::whereHas('role', function ($q) {
+                $query->orderBy('tanggal_penilaian', 'desc');
+
+            } elseif ($request->sort == 'terlama') {
+
+                $query->orderBy('tanggal_penilaian', 'asc');
+
+            } elseif ($request->sort == 'nilai_desc') {
+
+                $query->orderBy('nilai', 'desc');
+
+            } elseif ($request->sort == 'nilai_asc') {
+
+                $query->orderBy('nilai', 'asc');
+
+            } elseif ($request->sort == 'nama_asc') {
+
+                $query->join('users', 'users.id', '=', 'penilaian_kinerjas.user_id')
+                    ->orderBy('users.name', 'asc')
+                    ->select('penilaian_kinerjas.*');
+
+            } elseif ($request->sort == 'nama_desc') {
+
+                $query->join('users', 'users.id', '=', 'penilaian_kinerjas.user_id')
+                    ->orderBy('users.name', 'desc')
+                    ->select('penilaian_kinerjas.*');
+
+            } else {
+
+                $query->latest();
+
+            }
+
+            $penilaians = $query->paginate(10)->withQueryString();
+
+            $gurus = User::whereHas('role', function ($q) {
 
             $q->where('slug', 'guru');
 
@@ -181,5 +216,16 @@ class PenilaianKinerjaController extends Controller
         return redirect()
                 ->route('kinerja.index')
                 ->with('success', 'Penilaian berhasil diperbarui.');
+    }
+
+        public function destroy($id)
+    {
+        $penilaian = PenilaianKinerja::findOrFail($id);
+
+        $penilaian->delete();
+
+        return redirect()
+            ->route('kinerja.index')
+            ->with('success', 'Data penilaian berhasil dihapus.');
     }
 }

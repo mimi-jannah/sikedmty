@@ -5,6 +5,7 @@ use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
 use App\Http\Controllers\Guru\KehadiranController;
 use App\Http\Controllers\Guru\CutiController;
 use App\Http\Controllers\Guru\PelatihanController;
+use App\Http\Controllers\Guru\HasilPenilaianController;
 
 use App\Http\Controllers\TataUsaha\DashboardController as TataUsahaDashboardController;
 use App\Http\Controllers\TataUsaha\GuruStaffController as TataUsahaGuruStaffController;
@@ -73,6 +74,11 @@ Route::middleware([
 
     Route::put('/pelatihan/{id}',[PelatihanController::class,'update'])
     ->name('guru.pelatihan.update');
+
+    //penilaian kinerja
+    Route::get('/hasil-penilaian', [HasilPenilaianController::class, 'index'])
+    ->name('guru.hasil_penilaian');
+
 
 });
 
@@ -193,6 +199,9 @@ Route::middleware([
 
     Route::put('/kinerja/{id}', [PenilaianKinerjaController::class, 'update'])
         ->name('kinerja.update');
+
+    Route::delete('/kinerja/{id}', [PenilaianKinerjaController::class, 'destroy'])
+        ->name('kinerja.destroy');
 });
 
 

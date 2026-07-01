@@ -80,7 +80,6 @@
 
         </a>
 
-        
             <a href="{{ route('guru.cuti') }}"
                 class="flex items-center gap-3
                 bg-white/10
@@ -91,8 +90,22 @@
             ▣ Cuti
 
         </a>
+
+        <a href="{{ route('guru.hasil_penilaian') }}"
+                class="flex items-center gap-3
+                bg-white/10
+                hover:bg-white/20
+                transition
+                px-4 py-3 rounded-xl">
+
+            ▣ Hasil Penilaian Kinerja
+
+        </a>
+
         
     </div>
+
+
 
     {{-- PROFILE --}}
     <div class="absolute bottom-0 left-0 w-64

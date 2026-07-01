@@ -530,7 +530,7 @@
         </a>
 
         {{-- Tombol Hapus --}}
-        <form action="#" method="POST">
+        <form action="{{ route('kinerja.destroy', $item->id) }}" method="POST">
 
             @csrf
             @method('DELETE')
@@ -582,13 +582,19 @@
 
                 </tbody>
 
-            </table>
+            </table> {{-- tutup overflow-x-auto --}}
 
-        </div>
+            <div class="mt-6">
 
-    </div>
+                {{ $penilaians->links() }}
 
-</div>
+            </div>
+
+        </div> {{-- tutup p-6 --}}
+
+    </div> {{-- tutup card putih --}}
+
+</div> {{-- tutup col-span-8 --}}
 
 </div>
 
