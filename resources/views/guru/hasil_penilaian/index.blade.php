@@ -146,19 +146,39 @@
                 Total Skor
             </p>
 
-            <h2 class="text-4xl font-bold text-slate-800 mt-2">
-                90
+            <div class="flex items-center gap-3 mt-3">
+
+            <h2 class="text-5xl font-extrabold text-green-700">
+
+                {{ $penilaian ? $penilaian->nilai : '-' }}
+
             </h2>
 
-            <p class="text-green-600 font-semibold mt-1">
-                (90%)
-            </p>
+            <span
+                class="bg-green-100
+                    text-green-700
+                    px-3
+                    py-1
+                    rounded-lg
+                    font-semibold">
+
+                /100
+
+            </span>
 
         </div>
 
-        
+                    <p class="text-green-600 font-semibold mt-1">
 
-    </div>
+                        {{ $penilaian ? '(' . $penilaian->nilai . '%)' : '(0%)' }}
+
+                    </p>
+
+                </div>
+
+                
+
+            </div>
 
     {{-- Predikat --}}
     <div class="bg-white rounded-2xl shadow-md p-6 flex justify-between items-center">
@@ -169,9 +189,58 @@
                 Predikat
             </p>
 
-            <h2 class="text-3xl font-bold text-blue-600 mt-2">
-                Sangat Baik
-            </h2>
+            @if($penilaian)
+
+    @if($penilaian->kategori == 'Sangat Baik')
+
+        <span
+            class="inline-block
+                   mt-3
+                   px-5
+                   py-2
+                   rounded-full
+                   bg-green-100
+                   text-green-700
+                   font-bold">
+
+            {{ $penilaian->kategori }}
+
+        </span>
+
+    @else
+
+        <span
+            class="inline-block
+                   mt-3
+                   px-5
+                   py-2
+                   rounded-full
+                   bg-blue-100
+                   text-blue-700
+                   font-bold">
+
+            {{ $penilaian->kategori }}
+
+                </span>
+
+            @endif
+
+        @else
+
+            <span
+                class="inline-block
+                    mt-3
+                    px-5
+                    py-2
+                    rounded-full
+                    bg-gray-100
+                    text-gray-500">
+
+                Belum Dinilai
+
+            </span>
+
+        @endif
 
             <p class="text-gray-500">
                 Kinerja Anda
@@ -212,7 +281,16 @@
             </p>
 
             <h2 class="text-2xl font-bold text-orange-600 mt-2">
-                30 Juni 2026
+
+                <h2 class="text-2xl font-bold text-orange-600 mt-2">
+
+                    {{ $penilaian ? \Carbon\Carbon::parse($penilaian->tanggal_penilaian)
+                        ->locale('id')
+                        ->translatedFormat('d F Y')
+                    : '-' }}
+
+                </h2>
+
             </h2>
 
             <p class="text-gray-500">
@@ -245,6 +323,44 @@
 
     </div>
 
+
+    <div class="bg-white rounded-3xl shadow-lg mt-8 overflow-hidden">
+
+    <div class="bg-gradient-to-r from-green-700 to-emerald-500 px-6 py-4">
+
+        <h2 class="text-xl font-bold text-white">
+
+            Catatan Kepala Sekolah
+
+        </h2>
+
+    </div>
+
+    <div class="p-6">
+
+        @if($penilaian)
+
+            <p class="text-gray-700 leading-8">
+
+                {{ $penilaian->deskripsi }}
+
+            </p>
+
+        @else
+
+            <p class="text-gray-400">
+
+                Belum ada catatan penilaian.
+
+            </p>
+
+        @endif
+
+    </div>
+
+</div>
+
+
     <div class="p-6">
 
         <div class="overflow-x-auto">
@@ -271,46 +387,73 @@
 
                 <tbody>
 
-                    <tr class="border-b hover:bg-gray-50">
+@if($penilaian)
 
-                        <td class="px-5 py-4">
-                            1
-                        </td>
+<tr class="border-b hover:bg-gray-50">
 
-                        <td class="px-5 py-4 font-medium">
-                            Penilaian Kinerja
-                        </td>
+    <td class="px-5 py-4 text-center">
+        1
+    </td>
 
-                        <td class="px-5 py-4 text-center">
+    <td class="px-5 py-4 font-medium">
+        Penilaian Kinerja
+    </td>
 
-                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg font-semibold">
+    <td class="px-5 py-4 text-center">
 
-                                90
+        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg font-semibold">
 
-                            </span>
+            {{ $penilaian->nilai }}
 
-                        </td>
+        </span>
 
-                        <td class="px-5 py-4 text-center">
+    </td>
 
-                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg font-semibold">
+    <td class="px-5 py-4 text-center">
 
-                                Sangat Baik
+        @if($penilaian->kategori == 'Sangat Baik')
 
-                            </span>
+            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full font-semibold px-4 py-1">
 
-                        </td>
+                {{ $penilaian->kategori }}
 
-                        <td class="px-5 py-4">
+            </span>
 
-                            Guru menunjukkan kinerja yang sangat baik.
+        @else
 
-                        </td>
+            <span class="bg-blue-100 text-blue-700 rounded-full font-semibold px-4 py-1">
 
-                    </tr>
+                {{ $penilaian->kategori }}
 
-                </tbody>
+            </span>
 
+        @endif
+
+    </td>
+
+    <td class="px-5 py-4">
+
+        {{ $penilaian->deskripsi }}
+
+    </td>
+
+</tr>
+
+@else
+
+<tr>
+
+    <td colspan="5" class="text-center py-10 text-gray-400">
+
+        Belum ada hasil penilaian.
+
+    </td>
+
+</tr>
+
+@endif
+
+</tbody>
             </table>
 
         </div>
