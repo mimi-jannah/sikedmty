@@ -47,7 +47,7 @@
 
         </a>
 
-        <a href="#"
+        <a href="{{ route('pelatihan.index') }}"
            class="flex items-center gap-3
                   bg-white/10
                   hover:bg-white/20

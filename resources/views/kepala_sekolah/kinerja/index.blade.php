@@ -416,7 +416,7 @@
         </form>
 
         {{-- TABEL --}}
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto rounded-xl">
 
             <table class="min-w-full">
 
@@ -424,23 +424,23 @@
 
                     <tr class="bg-gray-100 text-gray-700">
 
-                        <th class="p-4">No</th>
+                        <th class="w-16 py-4 text-center">No</th>
 
-                        <th>Nama Guru</th>
+                        <th class="px-6 py-4 text-left">Nama Guru</th>
 
-                        <th>Jabatan</th>
+                        <th class="px-6 py-4 text-left">Jabatan</th>
 
-                        <th>Tanggal</th>
+                        <th class="px-6 py-4 text-left">Tanggal</th>
 
-                        <th>Deskripsi</th>
+                        <th class="text-left">Deskripsi</th>
 
-                        <th>Nilai</th>
+                        <th class="px-6 py-4 text-left">Nilai</th>
 
-                        <th>Aksi</th>
+                        <th class="px-6 py-4 text-left">Aksi</th>
 
                     </tr>
 
-                </thead>
+                    </thead>
 
                 <tbody>
 
@@ -450,55 +450,60 @@
                         class="border-b
                                hover:bg-green-50">
 
-                        <td class="text-center py-5">
+                        <td class="px-6 py-5 text-center align-top">
 
                             {{ $loop->iteration }}
 
                         </td>
 
-                        <td>
+                       <td class="px-6 py-5">
 
-                            <div class="font-semibold">
+                            <a href="{{ route('kepala-sekolah.kinerja.show', $item->id) }}"
+                            class="font-semibold text-slate-800 hover:text-green-600 transition">
 
                                 {{ $item->user->name }}
 
-                            </div>
+                            </a>
 
-                            <div class="text-sm text-gray-500">
+                            <p class="text-sm text-gray-500 mt-1">
 
                                 {{ $item->user->nip }}
 
-                            </div>
+                            </p>
 
                         </td>
 
-                        <td>
+                        <td class="px-6 py-5 align-top">
 
                             {{ $item->user->jabatan }}
 
                         </td>
 
-                        <td>
+                        <td class="px-6 py-5 text-center align-top whitespace-nowrap">
 
                             {{ \Carbon\Carbon::parse($item->tanggal_penilaian)->format('d-m-Y') }}
 
                         </td>
 
-                        <td>
+                        <td class="py-5 align-top">
 
-                            {{ $item->deskripsi }}
+                            <div class="leading-6">
+
+                                {{ $item->deskripsi }}
+
+                            </div>
 
                         </td>
 
-                        <td>
+                        <td class="px-6 py-5 text-center align-top">
 
-                            <span
-                                class="px-4
-                                       py-2
-                                       rounded-xl
-                                       bg-green-100
-                                       text-green-700
-                                       font-bold">
+                            <span class="inline-flex items-center justify-center
+                                min-w-[60px]
+                                h-10
+                                rounded-xl
+                                bg-green-100
+                                text-green-700
+                                font-bold">
 
                                 {{ $item->nilai }}
 
@@ -506,9 +511,9 @@
 
                         </td>
 
-                        <td>
+    <td class="px-6 py-5 align-top">
 
-    <div class="flex items-center gap-3">
+    <div class="flex flex-wrap justify-center gap-2">
 
         {{-- Tombol Edit --}}
         <a href="{{ route('kinerja.edit', $item->id) }}"

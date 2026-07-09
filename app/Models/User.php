@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\PenilaianKinerja;
+use App\Models\Pelatihan;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -57,5 +58,10 @@ class User extends Authenticatable
         public function penilaianKinerjas()
     {
         return $this->hasMany(PenilaianKinerja::class);
+    }
+
+        public function pelatihans()
+    {
+        return $this->hasMany(Pelatihan::class);
     }
 }

@@ -2,762 +2,29 @@
 
 @section('content')
 
-<div class="max-w-7xl mx-auto py-6">
+<div class="bg-white rounded-3xl shadow-md p-6 mb-6">
 
-    {{-- HEADER --}}
-    <div class="bg-white rounded-3xl shadow-lg p-8 mb-8">
+    <div class="flex items-center justify-between">
 
-        <div class="flex flex-col lg:flex-row justify-between items-center gap-6">
+        <div class="flex items-center gap-5">
 
-            {{-- ICON + TITLE --}}
-            <div class="flex items-center gap-5">
+            <div class="w-20 h-20 rounded-2xl bg-green-100 flex items-center justify-center text-4xl">
 
-                <div class="w-24 h-24 rounded-3xl
-                            bg-green-100
-                            flex items-center justify-center
-                            shadow-inner">
-
-                    <span class="text-5xl">
-
-                        📋
-
-                    </span>
-
-                </div>
-
-                <div>
-
-                    <h1 class="text-5xl font-bold text-slate-800">
-
-                        Data Kinerja
-
-                    </h1>
-
-                    <p class="text-slate-500 text-lg mt-2">
-
-                        Monitoring penilaian kinerja guru & staff
-                        MTSS Thamrin Yahya
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            {{-- BUTTON --}}
-            <button
-                onclick="toggleForm()"
-                class="px-8 py-4
-                       rounded-2xl
-                       bg-gradient-to-r
-                       from-green-700
-                       to-emerald-500
-                       text-white
-                       font-semibold
-                       shadow-lg
-                       hover:scale-105
-                       transition">
-
-                + Tambah Form Penilaian
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-    {{-- CARD STATISTIK --}}
-    <div class="grid
-                grid-cols-1
-                md:grid-cols-2
-                xl:grid-cols-4
-                gap-6
-                mb-8">
-
-        {{-- TOTAL FORM --}}
-        <div class="bg-white
-                    rounded-2xl
-                    shadow-md
-                    p-6">
-
-            <div class="flex items-center justify-between">
-
-                <div>
-
-                    <p class="text-gray-500">
-
-                        Total Form
-
-                    </p>
-
-                    <h1 class="text-4xl
-                               font-bold
-                               text-green-700
-                               mt-2">
-
-                        {{ $kinerjas->count() }}
-
-                    </h1>
-
-                    <span class="text-gray-400">
-
-                        Form
-
-                    </span>
-
-                </div>
-
-                <div class="w-16 h-16
-                            rounded-2xl
-                            bg-green-100
-                            flex items-center justify-center
-                            text-3xl">
-
-                    📄
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        {{-- GURU --}}
-        <div class="bg-white
-                    rounded-2xl
-                    shadow-md
-                    p-6">
-
-            <div class="flex items-center justify-between">
-
-                <div>
-
-                    <p class="text-gray-500">
-
-                        Guru Dinilai
-
-                    </p>
-
-                    <h1 class="text-4xl
-                               font-bold
-                               text-green-700
-                               mt-2">
-
-                        {{ $kinerjas->pluck('user_id')->unique()->count() }}
-
-                    </h1>
-
-                    <span class="text-gray-400">
-
-                        Guru
-
-                    </span>
-
-                </div>
-
-                <div class="w-16 h-16
-                            rounded-2xl
-                            bg-green-100
-                            flex items-center justify-center
-                            text-3xl">
-
-                    👨‍🏫
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {{-- TAHUN --}}
-        <div class="bg-white
-                    rounded-2xl
-                    shadow-md
-                    p-6">
-
-            <div class="flex items-center justify-between">
-
-                <div>
-
-                    <p class="text-gray-500">
-
-                        Tahun
-
-                    </p>
-
-                    <h1 class="text-4xl
-                               font-bold
-                               text-green-700
-                               mt-2">
-
-                        {{ now()->year }}
-
-                    </h1>
-
-                    <span class="text-gray-400">
-
-                        Aktif
-
-                    </span>
-
-                </div>
-
-                <div class="w-16 h-16
-                            rounded-2xl
-                            bg-green-100
-                            flex items-center justify-center
-                            text-3xl">
-
-                    📅
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        {{-- STATUS --}}
-        <div class="bg-white
-                    rounded-2xl
-                    shadow-md
-                    p-6">
-
-            <div class="flex items-center justify-between">
-
-                <div>
-
-                    <p class="text-gray-500">
-
-                        Status
-
-                    </p>
-
-                    <h1 class="text-4xl
-                               font-bold
-                               text-green-700
-                               mt-2">
-
-                        Aktif
-
-                    </h1>
-
-                    <span class="text-gray-400">
-
-                        Penilaian
-
-                    </span>
-
-                </div>
-
-                <div class="w-16 h-16
-                            rounded-2xl
-                            bg-green-100
-                            flex items-center justify-center
-                            text-3xl">
-
-                    ✅
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-{{-- ========================= --}}
-{{-- FORM TAMBAH PENILAIAN --}}
-{{-- ========================= --}}
-
-<div id="formTambah"
-     class="hidden
-            bg-white
-            rounded-3xl
-            shadow-xl
-            p-8
-            mb-8">
-
-    <h2 class="text-3xl font-bold text-slate-800 mb-8">
-
-        Tambah Form Penilaian Kinerja
-
-    </h2>
-
-    <form action="{{ route('tu.kinerja.store') }}" method="POST">
-
-    @csrf
-
-        {{-- INFORMASI FORM --}}
-        <div class="bg-slate-50 rounded-2xl p-6 mb-8">
-
-            <h3 class="font-bold text-lg mb-5">
-
-                Informasi Form
-
-            </h3>
-
-            <div class="grid md:grid-cols-2 gap-6">
-
-                <div>
-
-                    <label class="font-semibold">
-
-                        Nama Form
-
-                    </label>
-
-                    <input
-                        type="text"
-                        name="nama_form"
-                        class="w-full rounded-xl border-gray-300"
-                        placeholder="Masukkan nama form penilaian"
-                        required>
-
-                </div>
-
-                <div>
-
-                    <label class="font-semibold">
-
-                        Semester
-
-                    </label>
-
-                   <select
-                        name="semester"
-                        class="w-full rounded-xl border-gray-300"
-                        required>
-
-                        <option value="">-- Pilih Semester --</option>
-                        <option value="Ganjil">Ganjil</option>
-                        <option value="Genap">Genap</option>
-
-                    </select>
-
-                </div>
-
-                <div>
-
-                    <label class="font-semibold">
-
-                        Tahun Ajaran
-
-                    </label>
-
-                    <select
-                        name="tahun_ajaran"
-                        class="w-full rounded-xl border-gray-300"
-                        required>
-
-                        <option value="">-- Pilih Tahun Ajaran --</option>
-                        <option value="2025/2026">2025/2026</option>
-                        <option value="2026/2027">2026/2027</option>
-
-                    </select>
-
-                </div>
-
-                <div>
-
-                    <label class="font-semibold">
-
-                        Keterangan
-
-                    </label>
-
-                    <textarea
-                        name="keterangan"
-                        rows="3"
-                        class="w-full rounded-xl border-gray-300"
-                        placeholder="Masukkan keterangan (opsional)">
-                    </textarea>
-                </div>
-
-            </div>
-
-        </div>
-
-        {{-- INDIKATOR --}}
-        <div class="bg-slate-50 rounded-2xl p-6">
-
-            <div class="flex justify-between items-center mb-5">
-
-                <h3 class="font-bold text-lg">
-
-                    Indikator Penilaian
-
-                </h3>
-
-                <button
-                    type="button"
-                    onclick="tambahBaris()"
-                    class="bg-green-600
-                           hover:bg-green-700
-                           text-white
-                           px-4
-                           py-2
-                           rounded-lg">
-
-                    + Tambah Indikator
-
-                </button>
-
-            </div>
-
-            <table class="w-full">
-
-                <thead class="bg-green-100">
-
-                    <tr>
-
-                        <th class="py-3">No</th>
-
-                        <th>Nama Indikator</th>
-
-                        <th>Bobot (%)</th>
-
-                        <th>Aksi</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="indikatorBody">
-
-                    <tr>
-
-                        <td class="text-center">1</td>
-
-                        <td>
-
-                            <input
-                                type="text"
-                                name="nama_form"
-                                class="w-full rounded-xl border-gray-300">
-
-                        </td>
-
-                        <td>
-
-                            <input
-                                type="number"
-                                class="w-full rounded-lg border-gray-300">
-
-                        </td>
-
-                        <td class="text-center">
-
-    <button
-        type="button"
-        onclick="hapusBaris(this)"
-        class="bg-red-500
-               hover:bg-red-600
-               text-white
-               px-4
-               py-2
-               rounded-xl
-               font-medium
-               shadow
-               transition">
-
-        Hapus
-
-    </button>
-
-</td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-        <div class="flex justify-end gap-3 mt-8">
-
-            <button
-                type="button"
-                onclick="toggleForm()"
-                class="px-6 py-3 bg-gray-300 rounded-xl">
-
-                Batal
-
-            </button>
-
-            <button
-                class="px-6 py-3
-                       bg-gradient-to-r
-                       from-green-700
-                       to-emerald-500
-                       text-white
-                       rounded-xl">
-
-                Simpan Form
-
-            </button>
-
-        </div>
-
-    </form>
-
-</div>
-
-
-
-
-
-  {{-- ========================= --}}
-{{-- TOOLBAR --}}
-{{-- ========================= --}}
-
-<div class="bg-white
-            rounded-3xl
-            shadow-lg
-            overflow-hidden
-            mb-8">
-
-    {{-- HEADER --}}
-    <div class="bg-gradient-to-r
-                from-green-700
-                to-emerald-500
-                px-8
-                py-5">
-
-        <h2 class="text-2xl
-                   font-bold
-                   text-white">
-
-            Daftar Form Penilaian
-
-        </h2>
-
-    </div>
-
-    {{-- FILTER --}}
-    <div class="p-6">
-
-        <div class="grid
-                    grid-cols-1
-                    md:grid-cols-2
-                    lg:grid-cols-4
-                    gap-4">
-
-            {{-- SEARCH --}}
-            <div>
-
-                <input
-                    id="searchKinerja"
-                    type="text"
-                    placeholder="Cari nama pelatihan..."
-                    class="w-full
-                            rounded-xl
-                            border-gray-300
-                            px-5
-                            py-3">
-
-            </div>
-
-            {{-- SEMESTER --}}
-            <div>
-
-                <select
-                    id="filterSemester"
-                    class="w-full
-                           rounded-xl
-                           border-gray-300
-                           px-4
-                           py-3
-                           focus:ring-green-600
-                           focus:border-green-600">
-
-                    <option>Semua Semester</option>
-
-                    <option>Ganjil</option>
-
-                    <option>Genap</option>
-
-                </select>
-
-            </div>
-
-            {{-- STATUS --}}
-            <div>
-
-                <select
-                    id="filterStatus"
-                    class="w-full
-                           rounded-xl
-                           border-gray-300
-                           px-4
-                           py-3
-                           focus:ring-green-600
-                           focus:border-green-600">
-
-                    <option>Semua Status</option>
-
-                    <option>Aktif</option>
-
-                    <option>Draft</option>
-
-                    <option>Nonaktif</option>
-
-                </select>
-
-            </div>
-
-            {{-- BUTTON --}}
-            <div>
-
-                <button
-                    id="btnFilter"
-                    class="w-full
-                           bg-green-700
-                           hover:bg-green-800
-                           text-white
-                           rounded-xl
-                           py-3
-                           font-semibold
-                           transition">
-
-                    Filter
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-
-
-    {{-- TABLE --}}
-    <div class="bg-white
-                rounded-3xl
-                shadow-xl
-                overflow-hidden">
-
-        <div
-class="overflow-x-auto
-rounded-b-3xl">
-
-            <table class="w-full">
-
-    {{-- HEADER --}}
-    <thead
-        class="bg-gradient-to-r
-               from-green-700
-               to-emerald-500
-               text-white">
-
-        <tr>
-
-            <th class="px-6 py-4 text-center w-16">
-
-                No
-
-            </th>
-
-            <th class="px-6 py-4 text-left">
-
-                Guru / Staff
-
-            </th>
-
-            <th class="px-6 py-4 text-left">
-
-                Nama Pelatihan
-
-            </th>
-
-            <th class="px-6 py-4 text-left">
-
-                Tanggal
-
-            </th>
-
-            <th class="px-6 py-4 text-left">
-
-                Penyelenggara
-
-            </th>
-
-            <th class="px-6 py-4 text-center">
-
-                Lokasi
-
-            </th>
-
-            <th class="px-6 py-4 text-center">
-
-                Status
-
-            </th>
-
-            <th class="px-6 py-4 text-center">
-
-                Aksi
-
-            </th>
-
-        </tr>
-
-    </thead>
-
-
-
-    {{-- BODY --}}
-    <tbody>
-
-@forelse($kinerjas as $item)
-
-        <tr
-        class="kinerja-row
-        border-b
-       hover:bg-green-50">
-
-    {{-- NO --}}
-    <td class="px-6 py-5 text-center">
-
-        {{ $loop->iteration }}
-
-    </td>
-
-
-
-    {{-- GURU --}}
-    <td class="px-6 py-5">
-
-        <div class="flex items-center gap-3">
-
-            <div
-            class="w-11
-                   h-11
-                   rounded-full
-                   bg-green-100
-                   flex
-                   items-center
-                   justify-center
-                   font-bold
-                   text-green-700">
-
-                {{ strtoupper(substr($item->user->name ?? '-',0,1)) }}
+                📋
 
             </div>
 
             <div>
 
-                <p class="font-semibold text-slate-700">
+                <h1 class="text-4xl font-bold text-slate-800">
 
-                    {{ $item->user->name ?? '-' }}
+                    Data Penilaian Kinerja
+
+                </h1>
+
+                <p class="text-gray-500 mt-1">
+
+                    Kelola seluruh data penilaian guru & staff
 
                 </p>
 
@@ -765,395 +32,503 @@ rounded-b-3xl">
 
         </div>
 
-    </td>
+        {{-- Breadcrumb --}}
+        <div class="hidden lg:flex items-center gap-3 bg-white border rounded-xl px-6 py-3">
 
+            <span class="text-gray-500">Dashboard</span>
 
+            <span>›</span>
 
-    {{-- PELATIHAN --}}
-    <td class="px-6 py-5">
+            <span class="text-gray-500">Penilaian Kinerja</span>
 
-        <div class="nama-pelatihan font-semibold text-slate-700">
+            <span>›</span>
 
-            {{ $item->judul }}
+            <span class="text-green-700 font-semibold">
 
-        </div>
+                Data Penilaian
 
-        <div class="text-sm text-gray-400">
-
-            {{ Str::limit($item->deskripsi,40) }}
-
-        </div>
-
-    </td>
-
-
-
-    {{-- TANGGAL --}}
-    <td class="px-6 py-5">
-
-        {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y') }}
-
-    </td>
-
-
-
-    {{-- PENYELENGGARA --}}
-    <td class="px-6 py-5">
-
-        Perpustakaan Nasional
-
-    </td>
-
-
-
-    {{-- LOKASI --}}
-    <td class="px-6 py-5 text-center">
-
-        <span
-        class="bg-green-100
-               text-green-700
-               px-4
-               py-2
-               rounded-full
-               text-sm
-               font-semibold">
-
-            Sekolah
-
-        </span>
-
-    </td>
-
-
-
-    {{-- STATUS --}}
-    <td class="px-6 py-5 text-center">
-
-        <span
-        class="bg-green-100
-               text-green-700
-               px-4
-               py-2
-               rounded-full
-               text-sm
-               font-semibold">
-
-            Aktif
-
-        </span>
-
-    </td>
-
-
-
-    {{-- AKSI --}}
-    <td class="px-6 py-5">
-
-        <div class="flex justify-center gap-2">
-
-            {{-- DETAIL --}}
-            <button
-            class="w-10
-                   h-10
-                   rounded-xl
-                   bg-blue-500
-                   hover:bg-blue-600
-                   text-white">
-
-                👁
-
-            </button>
-
-            {{-- EDIT --}}
-            <button
-            class="w-10
-                   h-10
-                   rounded-xl
-                   bg-yellow-400
-                   hover:bg-yellow-500
-                   text-white">
-
-                ✏
-
-            </button>
-
-            {{-- HAPUS --}}
-            <button
-            class="w-10
-                   h-10
-                   rounded-xl
-                   bg-red-500
-                   hover:bg-red-600
-                   text-white">
-
-                🗑
-
-            </button>
+            </span>
 
         </div>
-
-    </td>
-
-</tr>
-
-@empty
-
-<tr>
-
-<td
-colspan="8"
-class="text-center
-       py-20">
-
-    <div
-    class="flex
-           flex-col
-           items-center">
-
-        <div
-        class="w-24
-               h-24
-               rounded-full
-               bg-green-100
-               flex
-               items-center
-               justify-center
-               text-5xl">
-
-            📋
-
-        </div>
-
-        <h2
-        class="text-2xl
-               font-bold
-               text-slate-700
-               mt-5">
-
-            Belum Ada Data
-
-        </h2>
-
-        <p
-        class="text-gray-500
-               mt-2">
-
-            Data kinerja belum tersedia.
-
-        </p>
-
-    </div>
-
-</td>
-
-</tr>
-
-@endforelse
-
-</tbody>
-
-</table>
-
-        {{-- PAGINATION --}}
-        <div class="flex
-            justify-between
-            items-center
-            px-8
-            py-5
-            bg-slate-50
-            border-t">
-
-    <div class="text-gray-500">
-
-        Menampilkan
-
-        <span class="font-semibold">
-
-            {{ $kinerjas->count() }}
-
-        </span>
-
-        data kinerja
-
-    </div>
-
-    <div class="flex gap-2">
-
-        <button
-        class="w-10
-               h-10
-               rounded-xl
-               border
-               hover:bg-gray-100">
-
-            <
-
-        </button>
-
-        <button
-        class="w-10
-               h-10
-               rounded-xl
-               bg-green-700
-               text-white">
-
-            1
-
-        </button>
-
-        <button
-        class="w-10
-               h-10
-               rounded-xl
-               border
-               hover:bg-gray-100">
-
-            >
-
-        </button>
 
     </div>
 
 </div>
 
-<script>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
 
-function toggleForm() {
+    <div class="bg-white rounded-3xl shadow p-6">
 
-    const form = document.getElementById('formTambah');
+        <p class="text-gray-500">
+            Total Penilaian
+        </p>
 
-    form.classList.toggle('hidden');
+        <h2 class="text-4xl font-bold text-green-700 mt-2">
 
-}
+            {{ $totalPenilaian }}
 
-</script>
+        </h2>
 
-<script>
+        <span class="text-gray-400">
+            Penilaian
+        </span>
 
-let nomor = 1;
+    </div>
 
-function tambahBaris(){
+    <div class="bg-white rounded-3xl shadow p-6">
 
-    nomor++;
+        <p class="text-gray-500">
 
-    let tbody = document.getElementById("indikatorBody");
+            Guru Sudah Dinilai
 
-    tbody.innerHTML += `
-        <tr class="border-b hover:bg-gray-50">
+        </p>
 
-            <td class="text-center py-4 font-semibold">
+        <h2 class="text-4xl font-bold text-blue-700 mt-2">
 
-                ${nomor}
+            {{ $guruSudahDinilai }}
 
-            </td>
+        </h2>
 
-            <td class="px-3 py-3">
+        <span class="text-gray-400">
+
+            Orang
+
+        </span>
+
+    </div>
+
+
+
+    <div class="bg-white rounded-3xl shadow p-6">
+
+        <p class="text-gray-500">
+
+            Nilai Rata-rata
+
+        </p>
+
+        <h2 class="text-4xl font-bold text-green-700 mt-2">
+
+            {{ $rataRata }}
+
+        </h2>
+
+        <span class="text-gray-400">
+
+            Poin
+
+        </span>
+
+    </div>
+
+</div>
+
+<div class="bg-white rounded-2xl shadow p-6 mb-6">
+
+    <form method="GET">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+
+            {{-- Tahun Ajaran --}}
+            <div>
+
+                <label class="block text-sm font-semibold mb-2">
+
+                    Tahun Ajaran
+
+                </label>
+
+                <select
+                    name="tahun"
+                    class="w-full border rounded-xl px-4 py-3">
+
+                    <option>2025/2026</option>
+
+                </select>
+
+            </div>
+
+            {{-- Semester --}}
+            <div>
+
+                <label class="block text-sm font-semibold mb-2">
+
+                    Semester
+
+                </label>
+
+                <select
+                    name="semester"
+                    class="w-full border rounded-xl px-4 py-3">
+
+                    <option>Ganjil</option>
+                    <option>Genap</option>
+
+                </select>
+
+            </div>
+
+            {{-- Predikat --}}
+            <div>
+
+                <label class="block text-sm font-semibold mb-2">
+
+                    Predikat
+
+                </label>
+
+                <select
+                    name="kategori"
+                    class="w-full border rounded-xl px-4 py-3">
+
+                    <option value="">
+
+                        Semua Predikat
+
+                    </option>
+
+                    <option>Sangat Baik</option>
+
+                    <option>Baik</option>
+
+                    <option>Cukup</option>
+
+                    <option>Kurang</option>
+
+                </select>
+
+            </div>
+
+            {{-- Cari Guru --}}
+            <div>
+
+                <label class="block text-sm font-semibold mb-2">
+
+                    Cari Nama Guru
+
+                </label>
 
                 <input
                     type="text"
-                    placeholder="Masukkan nama indikator"
-                    class="w-full rounded-xl border-gray-300">
+                    name="search"
+                    placeholder="Cari nama guru..."
+                    class="w-full border rounded-xl px-4 py-3">
 
-            </td>
+            </div>
 
-            <td class="px-3 py-3">
-
-                <input
-                    type="number"
-                    value="20"
-                    class="w-full rounded-xl border-gray-300">
-
-            </td>
-
-            <td class="text-center">
+            {{-- Tombol --}}
+            <div class="flex items-end gap-3">
 
                 <button
-                    type="button"
-                    onclick="hapusBaris(this)"
-                    class="bg-red-500
-                           hover:bg-red-600
-                           text-white
-                           px-4
-                           py-2
-                           rounded-xl
-                           font-medium
-                           shadow
-                           transition">
+                    class="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-xl py-3">
 
-                    Hapus
+                    🔍 Cari
 
                 </button>
 
-            </td>
+                <a href="{{ route('tata_usaha.kinerja.index') }}"
+                   class="px-5 py-3 rounded-xl bg-gray-200 hover:bg-gray-300">
 
-        </tr>
-    `;
+                    Reset
 
-function hapusBaris(button){
+                </a>
 
-    button.closest("tr").remove();
+            </div>
 
-    updateNomor();
+        </div>
 
-}
+    </form>
 
-function updateNomor(){
+</div>
 
-    let rows = document.querySelectorAll("#indikatorBody tr");
+<div class="grid grid-cols-12 gap-6">
 
-    nomor = rows.length;
+    {{-- KIRI --}}
+    <div class="col-span-12 lg:col-span-8">
 
-    rows.forEach(function(row,index){
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
 
-        row.cells[0].innerHTML = index + 1;
+        {{-- Header --}}
+        <div class="bg-gradient-to-r from-green-700 to-green-600 px-6 py-4">
 
-    });
+            <h2 class="text-xl font-bold text-white">
 
-}
+                Daftar Penilaian Kinerja
 
-}
-</script>
+            </h2>
 
-<script>
+        </div>
 
-document.getElementById("searchKinerja")
-.addEventListener("keyup",function(){
+        <div class="overflow-x-auto">
 
-    let keyword=this.value.toLowerCase();
+            <table class="w-full">
 
-    let rows=document.querySelectorAll(".kinerja-row");
+                <thead class="bg-gray-50">
 
-    rows.forEach(function(row){
+                    <tr>
 
-        let nama=row
-        .querySelector(".nama-pelatihan")
-        .innerText
-        .toLowerCase();
+                        <th class="px-5 py-4 text-left">No</th>
+                        <th class="px-5 py-4 text-left">Nama Guru / Staff</th>
+                        <th class="px-5 py-4 text-left">Jabatan</th>
+                        <th class="px-5 py-4 text-center">Nilai</th>
+                        <th class="px-5 py-4 text-center">Predikat</th>
+                        <th class="px-5 py-4 text-center">Tanggal</th>
+                        <th class="px-5 py-4 text-center">Aksi</th>
 
-        let guru=row
-        .querySelector(".nama-guru")
-        .innerText
-        .toLowerCase();
+                    </tr>
 
-        if(
-            nama.includes(keyword) ||
-            guru.includes(keyword)
-        ){
+                </thead>
 
-            row.style.display="";
+                <tbody>
 
-        }else{
+                @forelse($penilaians as $index => $penilaian)
 
-            row.style.display="none";
+                <tr class="border-b hover:bg-green-50 transition">
 
-        }
+                    <td class="px-5 py-5">
 
-    });
+    {{ $penilaians->firstItem() + $index }}
 
-});
+</td>
 
-</script>
+<td class="px-5 py-5">
+
+    <div class="flex items-center gap-3">
+
+        <img
+
+        src="https://ui-avatars.com/api/?name={{ urlencode($penilaian->user->name) }}&background=22c55e&color=fff"
+
+        class="w-10 h-10 rounded-full">
+
+        <div>
+
+            <p class="font-semibold">
+
+                {{ $penilaian->user->name }}
+
+            </p>
+
+            <p class="text-xs text-gray-500">
+
+                {{ $penilaian->user->nip }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+</td>
+
+<td class="px-5 py-5">
+
+    {{ $penilaian->user->jabatan }}
+
+</td>
+
+<td class="px-5 py-5 text-center">
+
+    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg font-bold">
+
+        {{ $penilaian->nilai }}
+
+    </span>
+
+</td>
+
+<td class="px-5 py-5 text-center">
+
+    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+
+        {{ $penilaian->kategori }}
+
+    </span>
+
+</td>
+
+<td class="px-5 py-5 text-center">
+
+    {{ \Carbon\Carbon::parse($penilaian->tanggal_penilaian)->translatedFormat('d M Y') }}
+
+</td>
+
+<td class="px-5 py-5">
+
+    <div class="flex justify-center gap-2">
+
+        <a href="{{ route('tata_usaha.kinerja.index', ['detail' => $penilaian->id]) }}"
+
+        class="bg-green-600 text-white px-3 py-2 rounded-lg">
+
+            Detail
+
+        </a>
+
+        <a href="#"
+
+        class="bg-blue-600 text-white px-3 py-2 rounded-lg">
+
+            cetak
+
+        </a>
 
 
+    </div>
+
+</td>
+
+                </tr>
+
+                @empty
+
+                <tr>
+
+                    <td colspan="7"
+                        class="py-10 text-center text-gray-500">
+
+                        Belum ada data penilaian.
+
+                    </td>
+
+                </tr>
+
+                @endforelse
+
+                </tbody>
+
+            </table>
+
+            <div class="px-6 py-4">
+
+                {{ $penilaians->links() }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+    {{-- KANAN --}}
+    <div class="col-span-12 lg:col-span-4">
+
+    @if($detail)
+
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+        <div class="bg-gradient-to-r from-green-700 to-green-600 px-6 py-4">
+
+            <h2 class="text-xl font-bold text-white">
+                Detail Penilaian
+            </h2>
+
+            <p class="text-green-100 text-sm">
+                Informasi penilaian yang dipilih
+            </p>
+
+        </div>
+
+        <div class="p-6">
+            <div class="flex items-center gap-4 mb-6">
+
+    <img
+        src="https://ui-avatars.com/api/?name={{ urlencode($detail->user->name) }}&background=22c55e&color=fff&size=150"
+        class="w-16 h-16 rounded-full shadow">
+
+    <div>
+
+        <h3 class="text-xl font-bold">
+
+            {{ $detail->user->name }}
+
+        </h3>
+
+        <p class="text-gray-500 text-sm">
+
+            NIP. {{ $detail->user->nip }}
+
+        </p>
+
+        <span class="inline-block mt-1 px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs">
+
+            {{ $detail->user->jabatan }}
+
+        </span>
+
+    </div>
+    @endif
+
+</div>
+<div class="space-y-4">
+
+    <div class="flex justify-between">
+
+        <span class="text-gray-500">Tanggal Penilaian</span>
+
+        <span class="font-semibold">
+
+            {{ \Carbon\Carbon::parse($detail->tanggal_penilaian)->translatedFormat('d F Y') }}
+
+        </span>
+
+    </div>
+
+    <div class="flex justify-between">
+
+        <span class="text-gray-500">
+
+            Nilai
+
+        </span>
+
+        <span class="font-bold text-green-700">
+
+            {{ $detail->nilai }}
+
+        </span>
+
+    </div>
+
+    <div class="flex justify-between">
+
+        <span class="text-gray-500">
+
+            Predikat
+
+        </span>
+
+        <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm">
+
+            {{ $detail->kategori }}
+
+        </span>
+
+    </div>
+
+</div>
+
+<hr class="my-6">
+
+<h4 class="font-bold mb-3">
+
+    Catatan Kepala Sekolah
+
+</h4>
+
+<div class="bg-green-50 border border-green-200 rounded-xl p-4 leading-7 text-gray-700">
+
+    {{ $detail->deskripsi }}
+
+</div>
+
+<div class="grid grid-cols-2 gap-3 mt-6">
+
+    
+
+</div>
+</div>
+</div>
 
 @endsection

@@ -151,8 +151,9 @@ class PenilaianKinerjaController extends Controller
         $penilaian = PenilaianKinerja::findOrFail($id);
 
         $penilaians = PenilaianKinerja::with('user')
-                        ->latest()
-                        ->get();
+                ->latest()
+                ->paginate(10)
+                ->withQueryString();
 
         $gurus = User::whereHas('role', function ($q) {
             $q->where('slug', 'guru');
@@ -227,5 +228,12 @@ class PenilaianKinerjaController extends Controller
         return redirect()
             ->route('kinerja.index')
             ->with('success', 'Data penilaian berhasil dihapus.');
+    }
+
+        public function show($id)
+    {
+        $penilaian = \App\Models\PenilaianKinerja::with('user')->findOrFail($id);
+
+        return view('kepala_sekolah.kinerja.show', compact('penilaian'));
     }
 }

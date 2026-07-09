@@ -69,7 +69,7 @@
 
         </a>
 
-            <a href="{{ route('tu.kinerja') }}"
+            <a href="{{ route('tata_usaha.kinerja.index') }}"
                 class="flex items-center gap-3
                 bg-white/10
                 hover:bg-white/20

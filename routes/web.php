@@ -9,13 +9,14 @@ use App\Http\Controllers\Guru\HasilPenilaianController;
 
 use App\Http\Controllers\TataUsaha\DashboardController as TataUsahaDashboardController;
 use App\Http\Controllers\TataUsaha\GuruStaffController as TataUsahaGuruStaffController;
-use App\Http\Controllers\TataUsaha\KinerjaController;
+use App\Http\Controllers\TataUsaha\PenilaianKinerjaController as TataUsahaPenilaianKinerjaController;
 use App\Http\Controllers\TataUsaha\LaporanKehadiranController;
 use App\Http\Controllers\TataUsaha\PelatihanController as TataUsahaPelatihanController;
 
 use App\Http\Controllers\KepalaSekolah\DashboardController as KepalaSekolahDashboardController;
 use App\Http\Controllers\KepalaSekolah\CutiKepsekController;
 use App\Http\Controllers\KepalaSekolah\PenilaianKinerjaController;
+use App\Http\Controllers\KepalaSekolah\PelatihanMonitoringController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -131,15 +132,9 @@ Route::middleware([
     ])->name('tata_usaha.data_guru.show');
 
     //data kinerja
-
-    Route::get(
-        '/tata-usaha/kinerja',
-        [KinerjaController::class, 'index']
-    )->name('tu.kinerja');
-
-    Route::post('/tata-usaha/kinerja/store',
-        [KinerjaController::class, 'store'])
-    ->name('tata-usaha.kinerja.store');
+    Route::get('/kinerja', [App\Http\Controllers\TataUsaha\PenilaianKinerjaController::class, 'index'])
+        ->name('tata_usaha.kinerja.index');
+    
 
     //laporan kehadiran
     Route::get(
@@ -188,6 +183,11 @@ Route::middleware([
         'index'
     ])->name('kepala_sekolah.dashboard');
 
+    // pelatihan
+    Route::get('/pelatihan', [PelatihanMonitoringController::class, 'index'])
+        ->name('pelatihan.index');
+
+    //penilaian kinerja
      Route::get('/kinerja', [PenilaianKinerjaController::class, 'index'])
         ->name('kinerja.index');
 
@@ -202,10 +202,10 @@ Route::middleware([
 
     Route::delete('/kinerja/{id}', [PenilaianKinerjaController::class, 'destroy'])
         ->name('kinerja.destroy');
-});
+    Route::get('/kepala-sekolah/kinerja/{id}', [PenilaianKinerjaController::class, 'show'])
+        ->name('kepala-sekolah.kinerja.show');
 
-
-//cuti
+    //cuti
     Route::get(
         '/kepala-sekolah/cuti_kepsek',
         [CutiKepsekController::class, 'index']
@@ -231,9 +231,8 @@ Route::middleware([
         '/kehadiran/{id}',
         [\App\Http\Controllers\KepalaSekolah\KehadiranController::class, 'detail']
     )->name('kepala.kehadiran.detail');
-
-    //penilaian kinerja
-   
+    
+});
 
 
 Route::get('/redirect-dashboard', function () {
