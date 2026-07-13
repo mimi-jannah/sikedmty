@@ -365,13 +365,13 @@
 
         </a>
 
-        <a href="#"
+        <a href="{{ route('tata_usaha.kinerja.pdf', $penilaian->id) }}"
+            target="_blank"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg">
 
-        class="bg-blue-600 text-white px-3 py-2 rounded-lg">
+                Ekspor
 
-            cetak
-
-        </a>
+            </a>
 
 
     </div>
@@ -458,8 +458,9 @@
         </span>
 
     </div>
-    @endif
 
+
+    
 </div>
 <div class="space-y-4">
 
@@ -525,10 +526,14 @@
 
 <div class="grid grid-cols-2 gap-3 mt-6">
 
-    
+</div>
 
-</div>
-</div>
-</div>
+</div> {{-- p-6 --}}
+
+</div> {{-- card --}}
+
+@endif
+
+</div> {{-- col-span-4 --}}
 
 @endsection

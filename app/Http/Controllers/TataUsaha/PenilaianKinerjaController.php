@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PenilaianKinerja;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PenilaianKinerjaController extends Controller
 {
@@ -32,20 +33,11 @@ class PenilaianKinerjaController extends Controller
         if ($request->filled('detail')) {
 
             $detail = PenilaianKinerja::with('user')
-                        ->find($request->detail);
+                ->find($request->detail);
 
         } else {
 
-            if ($request->filled('detail')) {
-
-                $detail = PenilaianKinerja::with('user')
-                            ->find($request->detail);
-
-            } else {
-
-                $detail = $penilaians->first();
-
-            }
+            $detail = $penilaians->first();
 
         }
 
@@ -59,6 +51,20 @@ class PenilaianKinerjaController extends Controller
                 'rataRata',
                 'detail'
             )
+        );
+    }
+
+        public function pdf($id)
+    {
+        $penilaian = PenilaianKinerja::with('user')->findOrFail($id);
+
+        $pdf = Pdf::loadView(
+            'tata_usaha.kinerja.pdf',
+            compact('penilaian')
+        );
+
+        return $pdf->download(
+            'Laporan Penilaian Kinerja.pdf'
         );
     }
 }

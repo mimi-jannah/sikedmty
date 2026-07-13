@@ -80,6 +80,9 @@ Route::middleware([
     Route::get('/hasil-penilaian', [HasilPenilaianController::class, 'index'])
     ->name('guru.hasil_penilaian');
 
+    Route::get('/kinerja/pdf',[GuruKinerjaController::class, 'pdf'])
+    ->name('guru.kinerja.pdf');
+
 
 });
 
@@ -134,6 +137,9 @@ Route::middleware([
     //data kinerja
     Route::get('/kinerja', [App\Http\Controllers\TataUsaha\PenilaianKinerjaController::class, 'index'])
         ->name('tata_usaha.kinerja.index');
+
+    Route::get('/kinerja/{id}/pdf',[App\Http\Controllers\TataUsaha\PenilaianKinerjaController::class, 'pdf'])
+        ->name('tata_usaha.kinerja.pdf');
     
 
     //laporan kehadiran
