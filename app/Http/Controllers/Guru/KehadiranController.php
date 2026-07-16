@@ -31,12 +31,6 @@ class KehadiranController extends Controller
 
     public function store(Request $request)
     {
-        /*
-        |--------------------------------------------------------------------------
-        | VALIDASI JAM KEHADIRAN
-        |--------------------------------------------------------------------------
-        */
-
         $jamSekarang = now()->format('H:i');
 
         $status = '';
@@ -63,12 +57,6 @@ class KehadiranController extends Controller
                 'Kehadiran hanya bisa dilakukan pukul 07.00 - 08.00'
             );
         }
-
-        /*
-        |--------------------------------------------------------------------------
-        | FOTO CAMERA
-        |--------------------------------------------------------------------------
-        */
 
         $foto = null;
 
@@ -100,11 +88,6 @@ class KehadiranController extends Controller
             $foto = $namaFile;
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | SIMPAN DATABASE
-        |--------------------------------------------------------------------------
-        */
         if (!$request->lokasi) {
 
             return back()->with(
@@ -112,8 +95,6 @@ class KehadiranController extends Controller
                 'Lokasi GPS belum terdeteksi. Aktifkan GPS lalu coba lagi.'
             );
         }
-
-
         Kehadiran::create([
 
             'user_id' => auth()->id(),
@@ -128,12 +109,6 @@ class KehadiranController extends Controller
 
             'bukti' => $foto,
         ]);
-
-        /*
-        |--------------------------------------------------------------------------
-        | REDIRECT
-        |--------------------------------------------------------------------------
-        */
 
         return back()->with(
 
