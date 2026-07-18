@@ -44,11 +44,15 @@ class GuruStaffController extends Controller
 
    public function store(Request $request)
 {
-    /*
-    |--------------------------------------------------------------------------
-    | FOTO
-    |--------------------------------------------------------------------------
-    */
+   
+    $request->validate([
+    'name' => 'required',
+    'email' => 'required|email|unique:users,email',
+    'nip' => 'required|unique:users,nip',
+    'golongan' => 'required',
+    'jabatan' => 'required',
+    'password' => 'required|min:8',
+]);
 
     $foto = null;
 
@@ -61,13 +65,6 @@ class GuruStaffController extends Controller
             $foto
         );
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | SIMPAN DATA
-    |--------------------------------------------------------------------------
-    */
-
     User::create([
 
         'name' => $request->name,
@@ -95,6 +92,8 @@ class GuruStaffController extends Controller
                 'Data berhasil ditambahkan'
             );
 }
+
+
     /*
     |--------------------------------------------------------------------------
     | HALAMAN EDIT DATA

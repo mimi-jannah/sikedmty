@@ -149,7 +149,7 @@
 
                         @if($item->bukti)
 
-                            <a href="{{ asset('bukti-kehadiran/'.$item->bukti) }}"
+                            <a href="{{ asset('storage/'.$item->bukti) }}"
                                target="_blank"
                                class="bg-black
                                       text-white
