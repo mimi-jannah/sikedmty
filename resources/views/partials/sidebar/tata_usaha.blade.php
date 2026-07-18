@@ -103,7 +103,7 @@
 
             <div class="flex items-center gap-3">
 
-                <img src="{{ asset('images/wosok.jpg') }}"
+                <img src="{{ asset('images/TataUsaha.png') }}"
                     alt="Profile"
                     class="w-10 h-10 rounded-full object-cover border-2 border-white">
 

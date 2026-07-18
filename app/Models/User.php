@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\PenilaianKinerja;
 use App\Models\Pelatihan;
+use App\Models\Kehadiran;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -54,6 +55,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+        public function kehadirans()
+    {
+        return $this->hasMany(\App\Models\Kehadiran::class);
+    }
 
         public function penilaianKinerjas()
     {
