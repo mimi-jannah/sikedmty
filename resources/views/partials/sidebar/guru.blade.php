@@ -45,7 +45,7 @@
                 px-2 md:px-4 py-3 rounded-xl
                 text-sm md:text-base">
 
-            ▣ Dasbor
+            Dasbor
 
         </a>
 
