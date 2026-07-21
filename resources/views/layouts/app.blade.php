@@ -38,10 +38,10 @@
 
         @endif
 
-        <div class="flex-1 flex flex-col min-h-screen">
+        <div class="flex-1 flex flex-col min-h-screen min-w-0">
 
             {{-- CONTENT --}}
-            <main class="p-6 flex-1">
+            <main class="flex-1 p-4 md:p-6 overflow-x-auto">
 
                 @yield('content')
 

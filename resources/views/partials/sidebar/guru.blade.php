@@ -1,20 +1,19 @@
-<aside class="w-20 md:w-64 min-h-screen
+<aside class="w-64 min-h-screen
               bg-gradient-to-b
               from-green-800
               to-emerald-700
               text-white
-              relative shadow-2xl
-              transition-all">
+              relative shadow-2xl">
 
     {{-- LOGO --}}
     <div class="p-6 border-b border-green-600">
 
-        <div class="flex flex-col md:flex-row items-center gap-2 md:gap-3 text-center md:text-left">
+        <div class="flex items-center gap-3">
 
             <img src="{{ asset('images/LogoSekolah.jpeg') }}"
                  class="w-14 h-14 object-contain">
 
-            <div class="hidden md:block">
+            <div>
 
                 <h1 class="font-bold text-lg">
 
@@ -38,59 +37,54 @@
     <div class="p-4 space-y-3">
 
         <a href="{{ route('guru.dashboard') }}"
-           class="flex justify-center md:justify-start items-center gap-3
-                bg-white/10
-                hover:bg-white/20
-                transition
-                px-2 md:px-4 py-3 rounded-xl
-                text-sm md:text-base">
+           class="flex items-center gap-3
+                  bg-white/10
+                  hover:bg-white/20
+                  transition
+                  px-4 py-3 rounded-xl">
 
-            Dasbor
+            ▣ Dasbor
 
         </a>
 
             <a href="{{ route('guru.kehadiran') }}"
-            class="flex justify-center md:justify-start items-center gap-3
+            class="flex items-center gap-3
                     bg-white/10
                     hover:bg-white/20
                     transition
-                    px-2 md:px-4 py-3 rounded-xl
-                    text-sm md:text-base">
+                    px-4 py-3 rounded-xl">
 
                 ▣ Kehadiran
 
             </a>
 
             <a href="{{ route('guru.pelatihan.index') }}"
-                class="flex justify-center md:justify-start items-center gap-3
-                    bg-white/10
-                    hover:bg-white/20
-                    transition
-                    px-2 md:px-4 py-3 rounded-xl
-                    text-sm md:text-base">
+                class="flex items-center gap-3
+                bg-white/10
+                hover:bg-white/20
+                transition
+                px-4 py-3 rounded-xl">
 
             ▣ Pelatihan
 
         </a>
             <a href="{{ route('guru.cuti') }}"
-                class="flex justify-center md:justify-start items-center gap-3
-                    bg-white/10
-                    hover:bg-white/20
-                    transition
-                    px-2 md:px-4 py-3 rounded-xl
-                    text-sm md:text-base">
+                class="flex items-center gap-3
+                bg-white/10
+                hover:bg-white/20
+                transition
+                px-4 py-3 rounded-xl">
 
             ▣ Cuti
 
         </a>
 
         <a href="{{ route('guru.hasil_penilaian') }}"
-                class="flex justify-center md:justify-start items-center gap-3
+                class="flex items-center gap-3
                 bg-white/10
                 hover:bg-white/20
                 transition
-                px-2 md:px-4 py-3 rounded-xl
-                text-sm md:text-base">
+                px-4 py-3 rounded-xl">
 
             ▣ Hasil Penilaian Kinerja
 
@@ -99,17 +93,19 @@
         
     </div>
 
+
+
     {{-- PROFILE --}}
-    <div class="absolute bottom-0 left-0 w-20 md:w-64
+    <div class="absolute bottom-0 left-0 w-64
                 p-5 border-t border-green-600">
 
         <div class="flex items-center justify-between">
 
             <div class="flex items-center gap-3">
 
-                <div class="hidden md:block">
+                <div>
 
-                    @if(auth()->user()->foto)
+    @if(auth()->user()->foto)
 
         <img src="{{ asset('images/'.auth()->user()->foto) }}"
              alt="Profile"
@@ -138,7 +134,7 @@
 
 </div>
 
-                <div class="hidden md:block">
+                <div>
 
                     <h1 class="font-semibold text-sm">
 
