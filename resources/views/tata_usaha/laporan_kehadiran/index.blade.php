@@ -46,7 +46,7 @@
                 Total Guru/Staff
             </p>
 
-            <h2 class="text-4xl font-bold text-slate-800 mt-2">
+            <h2 class="text-2xl font-bold text-slate-800 mt-1">
                 {{ $totalGuru }}
             </h2>
 
@@ -122,6 +122,7 @@
 
     </div>
 
+        
     {{-- FILTER --}}
     <div class="bg-white rounded-3xl shadow-lg p-6 mb-8">
 
@@ -184,11 +185,30 @@
 
             </select>
 
-            <button
-                type="button"
+            <label class="block font-semibold text-gray-700 mt-4 mb-2">
+    Periode Export
+</label>
+
+<select
+    name="periode"
+    class="w-full border rounded-xl px-4 py-3">
+
+    <option value="hari">Per Hari</option>
+    <option value="bulan">Per Bulan</option>
+    <option value="tahun">Per Tahun</option>
+
+</select>
+
+<input
+    type="date"
+    name="tanggal"
+    class="w-full border rounded-xl px-4 py-3 mt-4">
+
+           <button
+                type="submit"
                 class="w-full bg-green-600 hover:bg-green-700 text-white rounded-xl py-3 transition">
 
-                ▼ Lanjutkan
+                Export Excel
 
             </button>
 
@@ -307,7 +327,7 @@
 
                                 <span class="inline-flex items-center px-3 py-1 rounded-full bg-red-100 text-red-600 text-sm font-semibold">
 
-                                    Belum Absen
+                                    Belum Hadir
 
                                 </span>
 

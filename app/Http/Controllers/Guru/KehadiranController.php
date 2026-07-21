@@ -95,6 +95,51 @@ class KehadiranController extends Controller
                 'Lokasi GPS belum terdeteksi. Aktifkan GPS lalu coba lagi.'
             );
         }
+
+        // Koordinat Sekolah
+        $sekolahLat = env('SCHOOL_LAT');
+        $sekolahLng = env('SCHOOL_LNG');
+        $maxRadius = env('MAX_RADIUS', 100);
+
+        // Lokasi dari browser
+        [$userLat, $userLng] = explode(',', $request->lokasi);
+
+        $userLat = (float) trim($userLat);
+        $userLng = (float) trim($userLng);
+
+        //koordinat kampus
+        //Latitude  : 0.5711897654818395
+        //Longitude : 101.42612908207548
+
+        // ===========================
+        // HITUNG JARAK (HAVERSINE)
+        // ===========================
+
+        $earthRadius = 6371000; // meter
+
+        $dLat = deg2rad($userLat - $sekolahLat);
+        $dLng = deg2rad($userLng - $sekolahLng);
+
+        $a =
+            sin($dLat / 2) * sin($dLat / 2) +
+            cos(deg2rad($sekolahLat)) *
+            cos(deg2rad($userLat)) *
+            sin($dLng / 2) *
+            sin($dLng / 2);
+
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        $jarak = $earthRadius * $c;
+
+        // Maksimal radius 100 meter
+        if ($jarak > $maxRadius) {
+
+            return back()->with(
+                'error',
+                'Anda berada di luar area MTSS Thamrin Yahya. Kehadiran hanya dapat dilakukan dalam radius ' . $maxRadius . ' meter dari sekolah.'
+            );
+        }
+
         Kehadiran::create([
 
             'user_id' => auth()->id(),

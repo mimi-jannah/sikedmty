@@ -158,6 +158,8 @@ Route::middleware([
         [LaporanKehadiranController::class, 'export']
     )->name('tata_usaha.kehadiran.export');
 
+    
+
     //pelatihan
     Route::get('/pelatihan',[TataUsahaPelatihanController::class,'index']
         )->name('tata_usaha.pelatihan');
