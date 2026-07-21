@@ -21,7 +21,7 @@
              from-slate-100
              to-green-50">
 
-    <div class="flex">
+    <div class="flex min-h-screen">
 
         {{-- SIDEBAR --}}
         @if(auth()->user()->role->slug == 'guru')
