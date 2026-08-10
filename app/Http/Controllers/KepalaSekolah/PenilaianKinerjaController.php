@@ -6,95 +6,318 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PenilaianKinerja;
 use App\Models\User;
+use App\Models\Kehadiran;
+use App\Models\Cuti;
+use Carbon\Carbon;
 
 class PenilaianKinerjaController extends Controller
 {
-        public function index(Request $request)
+    /*
+    |--------------------------------------------------------------------------
+    | HALAMAN PENILAIAN KINERJA
+    |--------------------------------------------------------------------------
+    */
+
+    public function index(Request $request)
     {
+        // =========================================================
+        // QUERY DATA PENILAIAN
+        // =========================================================
+
         $query = PenilaianKinerja::with('user');
 
-        // Cari nama guru
+
+        // =========================================================
+        // CARI NAMA GURU
+        // =========================================================
+
         if ($request->filled('search')) {
 
             $query->whereHas('user', function ($q) use ($request) {
 
-                $q->where('name', 'like', '%' . $request->search . '%');
+                $q->where(
+                    'name',
+                    'like',
+                    '%' . $request->search . '%'
+                );
 
             });
-
         }
 
-        // Filter jabatan
+
+        // =========================================================
+        // FILTER JABATAN
+        // =========================================================
+
         if ($request->filled('jabatan')) {
 
             $query->whereHas('user', function ($q) use ($request) {
 
-                $q->where('jabatan', $request->jabatan);
+                $q->where(
+                    'jabatan',
+                    $request->jabatan
+                );
 
             });
-
         }
 
-        // Filter tanggal
+
+        // =========================================================
+        // FILTER TANGGAL PENILAIAN
+        // =========================================================
+
         if ($request->filled('tanggal_penilaian')) {
 
             $query->whereDate(
                 'tanggal_penilaian',
                 $request->tanggal_penilaian
             );
-
         }
 
-        // Sorting
-            if ($request->sort == 'terbaru') {
 
-                $query->orderBy('tanggal_penilaian', 'desc');
+        // =========================================================
+        // SORTING
+        // =========================================================
 
-            } elseif ($request->sort == 'terlama') {
+        if ($request->sort == 'terbaru') {
 
-                $query->orderBy('tanggal_penilaian', 'asc');
+            $query->orderBy(
+                'tanggal_penilaian',
+                'desc'
+            );
 
-            } elseif ($request->sort == 'nilai_desc') {
+        } elseif ($request->sort == 'terlama') {
 
-                $query->orderBy('nilai', 'desc');
+            $query->orderBy(
+                'tanggal_penilaian',
+                'asc'
+            );
 
-            } elseif ($request->sort == 'nilai_asc') {
+        } elseif ($request->sort == 'nilai_desc') {
 
-                $query->orderBy('nilai', 'asc');
+            $query->orderBy(
+                'nilai',
+                'desc'
+            );
 
-            } elseif ($request->sort == 'nama_asc') {
+        } elseif ($request->sort == 'nilai_asc') {
 
-                $query->join('users', 'users.id', '=', 'penilaian_kinerjas.user_id')
-                    ->orderBy('users.name', 'asc')
-                    ->select('penilaian_kinerjas.*');
+            $query->orderBy(
+                'nilai',
+                'asc'
+            );
 
-            } elseif ($request->sort == 'nama_desc') {
+        } elseif ($request->sort == 'nama_asc') {
 
-                $query->join('users', 'users.id', '=', 'penilaian_kinerjas.user_id')
-                    ->orderBy('users.name', 'desc')
-                    ->select('penilaian_kinerjas.*');
+            $query->join(
+                'users',
+                'users.id',
+                '=',
+                'penilaian_kinerjas.user_id'
+            )
+            ->orderBy(
+                'users.name',
+                'asc'
+            )
+            ->select(
+                'penilaian_kinerjas.*'
+            );
 
-            } else {
+        } elseif ($request->sort == 'nama_desc') {
 
-                $query->latest();
+            $query->join(
+                'users',
+                'users.id',
+                '=',
+                'penilaian_kinerjas.user_id'
+            )
+            ->orderBy(
+                'users.name',
+                'desc'
+            )
+            ->select(
+                'penilaian_kinerjas.*'
+            );
 
-            }
+        } else {
 
-            $penilaians = $query->paginate(10)->withQueryString();
+            $query->latest();
+        }
 
-            $gurus = User::whereHas('role', function ($q) {
 
-            $q->where('slug', 'guru');
+        // =========================================================
+        // DATA PENILAIAN
+        // =========================================================
+
+        $penilaians = $query
+            ->paginate(10)
+            ->withQueryString();
+
+
+        // =========================================================
+        // DATA GURU
+        // =========================================================
+
+        $gurus = User::whereHas('role', function ($q) {
+
+            $q->where(
+                'slug',
+                'guru'
+            );
 
         })->get();
 
-        return view(
-            'kepala_sekolah.kinerja.index',
-            compact('penilaians', 'gurus')
+
+        // =========================================================
+        // PERIODE REKAP
+        // =========================================================
+
+        $periode = $request->input(
+            'periode',
+            now()->format('Y-m')
         );
+
+
+        // Cek format periode
+        try {
+
+            $tanggalPeriode = Carbon::createFromFormat(
+                'Y-m',
+                $periode
+            );
+
+        } catch (\Exception $e) {
+
+            $periode = now()->format('Y-m');
+
+            $tanggalPeriode = Carbon::createFromFormat(
+                'Y-m',
+                $periode
+            );
+        }
+
+
+        $bulan = $tanggalPeriode->month;
+
+        $tahun = $tanggalPeriode->year;
+
+        $selectedUserId = $request->input('user_id');
+
+
+        // =========================================================
+        // REKAP KEHADIRAN BERDASARKAN BULAN YANG DIPILIH
+        // =========================================================
+
+        $rekapKehadiran = Kehadiran::whereMonth(
+                'tanggal',
+                $bulan
+            )
+            ->whereYear(
+                'tanggal',
+                $tahun
+            )
+            ->selectRaw("
+                user_id,
+
+                SUM(
+                    CASE
+                        WHEN status = 'Berhasil'
+                        THEN 1
+                        ELSE 0
+                    END
+                ) AS hadir,
+
+                SUM(
+                    CASE
+                        WHEN status = 'Terlambat'
+                        THEN 1
+                        ELSE 0
+                    END
+                ) AS terlambat
+            ")
+            ->groupBy('user_id')
+            ->get()
+            ->keyBy('user_id');
+
+
+        // =========================================================
+        // REKAP CUTI BERDASARKAN BULAN YANG DIPILIH
+        // =========================================================
+
+        $rekapCuti = Cuti::whereMonth(
+                'tanggal_mulai',
+                $bulan
+            )
+            ->whereYear(
+                'tanggal_mulai',
+                $tahun
+            )
+            ->selectRaw("
+                user_id,
+                COUNT(*) AS total_cuti
+            ")
+            ->groupBy('user_id')
+            ->get()
+            ->keyBy('user_id');
+
+        $rekapHadirTerpilih = 0;
+$rekapTerlambatTerpilih = 0;
+$rekapCutiTerpilih = 0;
+
+if ($selectedUserId) {
+
+    $dataKehadiran = $rekapKehadiran
+        ->get($selectedUserId);
+
+    if ($dataKehadiran) {
+
+        $rekapHadirTerpilih =
+            (int) $dataKehadiran->hadir;
+
+        $rekapTerlambatTerpilih =
+            (int) $dataKehadiran->terlambat;
     }
 
-        public function store(Request $request)
+
+    $dataCuti = $rekapCuti
+        ->get($selectedUserId);
+
+    if ($dataCuti) {
+
+        $rekapCutiTerpilih =
+            (int) $dataCuti->total_cuti;
+    }
+}
+
+
+        // =========================================================
+        // TAMPILKAN HALAMAN
+        // =========================================================
+
+        return view(
+    'kepala_sekolah.kinerja.index',
+    compact(
+        'penilaians',
+        'gurus',
+        'rekapKehadiran',
+        'rekapCuti',
+        'periode',
+        'selectedUserId',
+        'rekapHadirTerpilih',
+        'rekapTerlambatTerpilih',
+        'rekapCutiTerpilih'
+    )
+);
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SIMPAN PENILAIAN
+    |--------------------------------------------------------------------------
+    */
+
+    public function store(Request $request)
     {
         $request->validate([
 
@@ -108,7 +331,11 @@ class PenilaianKinerjaController extends Controller
 
         ]);
 
-        // Menentukan kategori otomatis
+
+        // =========================================================
+        // KATEGORI NILAI
+        // =========================================================
+
         if ($request->nilai >= 90) {
 
             $kategori = 'Sangat Baik';
@@ -124,62 +351,219 @@ class PenilaianKinerjaController extends Controller
         } else {
 
             $kategori = 'Kurang';
-
         }
+
+
+        // =========================================================
+        // SIMPAN DATA
+        // =========================================================
 
         PenilaianKinerja::create([
 
             'user_id' => $request->user_id,
 
-            'tanggal_penilaian' => $request->tanggal_penilaian,
+            'tanggal_penilaian' =>
+                $request->tanggal_penilaian,
 
-            'deskripsi' => $request->deskripsi,
+            'deskripsi' =>
+                $request->deskripsi,
 
-            'nilai' => $request->nilai,
+            'nilai' =>
+                $request->nilai,
 
-            'kategori' => $kategori,
+            'kategori' =>
+                $kategori,
 
         ]);
 
+
         return redirect()
-                ->route('kinerja.index')
-                ->with('success', 'Penilaian berhasil disimpan.');
+            ->route('kinerja.index')
+            ->with(
+                'success',
+                'Penilaian berhasil disimpan.'
+            );
     }
 
-        public function edit($id)
-    {
-        $penilaian = PenilaianKinerja::findOrFail($id);
 
-        $penilaians = PenilaianKinerja::with('user')
+    /*
+    |--------------------------------------------------------------------------
+    | EDIT PENILAIAN
+    |--------------------------------------------------------------------------
+    */
+
+    public function edit($id)
+    {
+        // =========================================================
+        // DATA PENILAIAN YANG AKAN DIEDIT
+        // =========================================================
+
+        $penilaian =
+            PenilaianKinerja::findOrFail($id);
+
+
+        // =========================================================
+        // DATA PENILAIAN
+        // =========================================================
+
+        $penilaians =
+            PenilaianKinerja::with('user')
                 ->latest()
                 ->paginate(10)
                 ->withQueryString();
 
-        $gurus = User::whereHas('role', function ($q) {
-            $q->where('slug', 'guru');
-        })->get();
+
+        // =========================================================
+        // DATA GURU
+        // =========================================================
+
+        $gurus =
+            User::whereHas('role', function ($q) {
+
+                $q->where(
+                    'slug',
+                    'guru'
+                );
+
+            })->get();
+
+
+        // =========================================================
+        // PERIODE REKAP
+        // =========================================================
+
+        $periode = request()->input(
+            'periode',
+            now()->format('Y-m')
+        );
+
+
+        try {
+
+            $tanggalPeriode = Carbon::createFromFormat(
+                'Y-m',
+                $periode
+            );
+
+        } catch (\Exception $e) {
+
+            $periode = now()->format('Y-m');
+
+            $tanggalPeriode = Carbon::createFromFormat(
+                'Y-m',
+                $periode
+            );
+        }
+
+
+        $bulan = $tanggalPeriode->month;
+
+        $tahun = $tanggalPeriode->year;
+
+
+        // =========================================================
+        // REKAP KEHADIRAN
+        // =========================================================
+
+        $rekapKehadiran = Kehadiran::whereMonth(
+                'tanggal',
+                $bulan
+            )
+            ->whereYear(
+                'tanggal',
+                $tahun
+            )
+            ->selectRaw("
+                user_id,
+
+                SUM(
+                    CASE
+                        WHEN status = 'Berhasil'
+                        THEN 1
+                        ELSE 0
+                    END
+                ) AS hadir,
+
+                SUM(
+                    CASE
+                        WHEN status = 'Terlambat'
+                        THEN 1
+                        ELSE 0
+                    END
+                ) AS terlambat
+            ")
+            ->groupBy('user_id')
+            ->get()
+            ->keyBy('user_id');
+
+
+        // =========================================================
+        // REKAP CUTI
+        // =========================================================
+
+        $rekapCuti = Cuti::whereMonth(
+                'tanggal_mulai',
+                $bulan
+            )
+            ->whereYear(
+                'tanggal_mulai',
+                $tahun
+            )
+            ->selectRaw("
+                user_id,
+                COUNT(*) AS total_cuti
+            ")
+            ->groupBy('user_id')
+            ->get()
+            ->keyBy('user_id');
+
 
         return view(
             'kepala_sekolah.kinerja.index',
-            compact('penilaian', 'penilaians', 'gurus')
+            compact(
+                'penilaian',
+                'penilaians',
+                'gurus',
+                'rekapKehadiran',
+                'rekapCuti',
+                'periode'
+            )
         );
     }
 
-        public function update(Request $request, $id)
-    {
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE PENILAIAN
+    |--------------------------------------------------------------------------
+    */
+
+    public function update(
+        Request $request,
+        $id
+    ) {
+
         $request->validate([
 
-            'user_id' => 'required|exists:users,id',
+            'user_id' =>
+                'required|exists:users,id',
 
-            'tanggal_penilaian' => 'required|date',
+            'tanggal_penilaian' =>
+                'required|date',
 
-            'deskripsi' => 'required',
+            'deskripsi' =>
+                'required',
 
-            'nilai' => 'required|integer|min:0|max:100',
+            'nilai' =>
+                'required|integer|min:0|max:100',
 
         ]);
 
-        // Menentukan kategori otomatis
+
+        // =========================================================
+        // KATEGORI NILAI
+        // =========================================================
+
         if ($request->nilai >= 90) {
 
             $kategori = 'Sangat Baik';
@@ -195,45 +579,90 @@ class PenilaianKinerjaController extends Controller
         } else {
 
             $kategori = 'Kurang';
-
         }
 
-        $penilaian = PenilaianKinerja::findOrFail($id);
+
+        // =========================================================
+        // CARI DATA
+        // =========================================================
+
+        $penilaian =
+            PenilaianKinerja::findOrFail($id);
+
+
+        // =========================================================
+        // UPDATE
+        // =========================================================
 
         $penilaian->update([
 
-            'user_id' => $request->user_id,
+            'user_id' =>
+                $request->user_id,
 
-            'tanggal_penilaian' => $request->tanggal_penilaian,
+            'tanggal_penilaian' =>
+                $request->tanggal_penilaian,
 
-            'deskripsi' => $request->deskripsi,
+            'deskripsi' =>
+                $request->deskripsi,
 
-            'nilai' => $request->nilai,
+            'nilai' =>
+                $request->nilai,
 
-            'kategori' => $kategori,
+            'kategori' =>
+                $kategori,
 
         ]);
 
-        return redirect()
-                ->route('kinerja.index')
-                ->with('success', 'Penilaian berhasil diperbarui.');
-    }
-
-        public function destroy($id)
-    {
-        $penilaian = PenilaianKinerja::findOrFail($id);
-
-        $penilaian->delete();
 
         return redirect()
             ->route('kinerja.index')
-            ->with('success', 'Data penilaian berhasil dihapus.');
+            ->with(
+                'success',
+                'Penilaian berhasil diperbarui.'
+            );
     }
 
-        public function show($id)
-    {
-        $penilaian = \App\Models\PenilaianKinerja::with('user')->findOrFail($id);
 
-        return view('kepala_sekolah.kinerja.show', compact('penilaian'));
+    /*
+    |--------------------------------------------------------------------------
+    | HAPUS PENILAIAN
+    |--------------------------------------------------------------------------
+    */
+
+    public function destroy($id)
+    {
+        $penilaian =
+            PenilaianKinerja::findOrFail($id);
+
+
+        $penilaian->delete();
+
+
+        return redirect()
+            ->route('kinerja.index')
+            ->with(
+                'success',
+                'Data penilaian berhasil dihapus.'
+            );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DETAIL PENILAIAN
+    |--------------------------------------------------------------------------
+    */
+
+    public function show($id)
+    {
+        $penilaian =
+            PenilaianKinerja::with('user')
+                ->findOrFail($id);
+
+
+        return view(
+            'kepala_sekolah.kinerja.show',
+            compact('penilaian')
+        );
     }
 }
